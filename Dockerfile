@@ -11,6 +11,7 @@ RUN apt -y install build-essential \
     libldap2-dev \
     libsasl2-dev \
     nano \
+    postgresql-client-9.6 \
     python \
     python-pip \
     python-setuptools
