@@ -38,7 +38,7 @@ services:
 
   odoo-app:
     restart: unless-stopped
-    image: odoo-local
+    image: kenayagi/odoo
     depends_on:
       - odoo-db
     environment:
