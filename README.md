@@ -20,7 +20,7 @@ version: 2
 services:
   odoo-db:
     restart: unless-stopped
-    image: postgres:10.6-alpine
+    image: postgres:9.6-alpine
     networks:
       odoo:
         aliases:
