@@ -29,7 +29,7 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-br
 RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
-RUN pip install codicefiscale configparser evdev future pyXB==1.2.5 unidecode
+RUN pip install codicefiscale configparser evdev future pyXB==1.2.5 unidecode unicodecsv
 
 RUN apt -y install locales
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen
