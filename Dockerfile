@@ -68,5 +68,17 @@ RUN git clone https://github.com/Openworx/backend_theme.git --depth 1 --branch 1
 RUN mkdir -p /opt/odoo/extra/contract
 RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
 
+RUN mkdir -p /opt/odoo/extra/project
+RUN git clone https://github.com/OCA/project.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/project
+
+RUN mkdir -p /opt/odoo/extra/bank-payment
+RUN git clone https://github.com/OCA/bank-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/bank-payment
+
+RUN mkdir -p /opt/odoo/extra/account-invoicing
+RUN git clone https://github.com/OCA/account-invoicing.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-invoicing
+
+RUN mkdir -p /srv/odoo
+CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/reporting-engine,/opt/odoo/extra/account-payment,/opt/odoo/extra/stock-logistics-workflow,/opt/odoo/extra/web,/opt/odoo/extra/theme-ow,/opt/odoo/extra/contract,/opt/odoo/extra/project,/opt/odoo/extra/bank-payment,/opt/odoo/extra/account-invoicing
+
 RUN mkdir -p /srv/odoo
 CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/reporting-engine,/opt/odoo/extra/account-payment,/opt/odoo/extra/stock-logistics-workflow,/opt/odoo/extra/web,/opt/odoo/extra/theme-ow,/opt/odoo/extra/contract
