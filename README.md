@@ -1,20 +1,25 @@
 # Unofficial Odoo 10 for Docker
 
-Dockerized Odoo 10.
-Based on OCB, Italian OCA and some other addons repo.
+This is a dockerized Odoo 10 setup.
+It's based on OCA/OCB with Italian localization and some other useful addons.
 
 It needs an external container for DB and some mapped folders for persistent data.
 
-Create the odoo.conf file containing your Odoo DB admin password:
+Firstly create the odoo.conf file containing your Odoo DB admin password:
 
 ```
+
 [options]
 admin_passwd = MyOdooDBAdminSuperSecretPassword
+
 ```
 
 
-If already using traefik, you can launch through docker-compose with something like:
+If already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
+
+
 ```
+
 version: 2
 
 services:
@@ -48,6 +53,7 @@ services:
       - TZ='Europe/Rome'
     expose:
       - 8069
+      - 8072
     volumes:
       - /srv/docker/odoo/app/data:/srv/odoo
       - /srv/docker/odoo/app/odoo.conf:/srv/odoo.conf:ro
@@ -58,10 +64,14 @@ services:
       - odoo
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:odoo.yourdomain.com
-      - traefik.frontend.redirect.entryPoint=https
-      - traefik.port=8069
-      - traefik.backend=odoo
+      - traefik.odoo.port=8069
+      - traefik.odoo.backend=odoo
+      - traefik.odoo.frontend.rule=Host:odoo.yourdomain.com
+      - traefik.odoo.frontend.redirect.entryPoint=https
+      - traefik.odoolp.port=8072
+      - traefik.odoolp.backend=odoo-lp
+      - traefik.odoolp.frontend.rule=Host:odoo.yourdomain.com;PathPrefixStrip:/longpolling
+      - traefik.odoolp.frontend.redirect.entryPoint=https
       - traefik.docker.network=traefik
       
 networks:
@@ -69,4 +79,6 @@ networks:
   traefik:
     external:
       name: traefik
+
 ```
+
