@@ -16,7 +16,7 @@ RUN apt -y install build-essential \
     python-pip \
     python-setuptools
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt -y install nodejs
 RUN npm install -g less less-plugin-clean-css
 
