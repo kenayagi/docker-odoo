@@ -36,26 +36,30 @@ RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
 ENV LANG=it_IT.UTF-8
 
-# Italian localization
+# Localizzazione italiana
 RUN mkdir -p /opt/odoo/extra/l10n-italy
 RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/l10n-italy
 
-# Better ZIP Location and Partner first-last name separation
+# Migliorie CAP e provincie + separazione nome/cognome per partner
 RUN mkdir -p /opt/odoo/extra/partner-contact
 RUN git clone https://github.com/OCA/partner-contact.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/partner-contact
 
-# Add Fiscal Year
+# Aggiunge anno fiscale
 RUN mkdir -p /opt/odoo/extra/account-financial-tools
 RUN git clone https://github.com/OCA/account-financial-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-financial-tools
 
-# Auto DB Backup
+# Funzione DB Backup automatica
 RUN mkdir -p /opt/odoo/extra/server-tools
 RUN git clone https://github.com/OCA/server-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/server-tools
 RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
 
-# Recurring invoices
+# Contratti e fatture ricorrenti
 RUN mkdir -p /opt/odoo/extra/contract
 RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
 
+# Supporto per i DDT 
+RUN mkdir -p /opt/odoo/extra/stock-logistics-workflow
+RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
+
 RUN mkdir -p /srv/odoo
-CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract
+CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract,/opt/odoo/extra/stock-logistics-workflow
