@@ -7,9 +7,6 @@
 #RUN mkdir -p /opt/odoo/extra/account-payment
 #RUN git clone https://github.com/OCA/account-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-payment
 
-#RUN mkdir -p /opt/odoo/extra/stock-logistics-workflow
-#RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
-
 #RUN mkdir -p /opt/odoo/extra/web
 #RUN git clone https://github.com/OCA/web.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/web
 
