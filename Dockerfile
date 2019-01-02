@@ -10,11 +10,13 @@ RUN apt -y install build-essential \
     libzip-dev \
     libldap2-dev \
     libsasl2-dev \
+    locales \
     nano \
     postgresql-client-9.6 \
     python \
     python-pip \
-    python-setuptools
+    python-setuptools \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
 RUN apt -y install nodejs
@@ -31,7 +33,6 @@ RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
 RUN pip install codicefiscale configparser evdev future pyXB==1.2.5 unidecode unicodecsv
 
-RUN apt -y install locales
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
 ENV LANG=it_IT.UTF-8
@@ -40,7 +41,7 @@ ENV LANG=it_IT.UTF-8
 RUN mkdir -p /opt/odoo/extra/l10n-italy
 RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/l10n-italy
 
-# Migliorie CAP e provincie + separazione nome/cognome per partner
+# Migliorie CAP e province + separazione nome/cognome per partner
 RUN mkdir -p /opt/odoo/extra/partner-contact
 RUN git clone https://github.com/OCA/partner-contact.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/partner-contact
 
@@ -57,7 +58,7 @@ RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
 RUN mkdir -p /opt/odoo/extra/contract
 RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
 
-# Supporto per i DDT 
+# Aggiunge supporto per i DDT 
 RUN mkdir -p /opt/odoo/extra/stock-logistics-workflow
 RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
 
