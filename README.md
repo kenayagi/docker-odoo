@@ -72,6 +72,10 @@ services:
       - traefik.odoolp.backend=odoo-lp
       - traefik.odoolp.frontend.rule=Host:odoo.yourdomain.com;PathPrefixStrip:/longpolling
       - traefik.odoolp.frontend.redirect.entryPoint=https
+      - traefik.odoodm.frontend.rule=Host:odoo.yourdomain.com;Path:/web/database/manager
+      - traefik.odoodm.frontend.redirect.entryPoint=https
+      - traefik.odoodm.frontend.whiteList.sourceRange=192.168.1.0/16
+      - traefik.odoodm.backend=odoo
       - traefik.docker.network=traefik
       
 networks:
