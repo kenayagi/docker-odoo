@@ -13,6 +13,7 @@ RUN apt -y install build-essential \
     locales \
     nano \
     postgresql-client-9.6 \
+    procps \
     python \
     python-pip \
     python-setuptools \
@@ -31,7 +32,7 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-br
 RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
-RUN pip install codicefiscale configparser evdev future pyXB==1.2.5 unidecode unicodecsv
+RUN pip install codicefiscale configparser erppeek evdev future pyXB==1.2.5 unidecode unicodecsv
 
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
