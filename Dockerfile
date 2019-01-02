@@ -19,12 +19,15 @@ RUN apt -y install build-essential \
     python-setuptools \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt -y install nodejs
 RUN npm install -g less less-plugin-clean-css
 
 RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb -o /tmp/wkhtmltopdf.deb
 RUN apt -y install /tmp/wkhtmltopdf.deb
+
+RUN mkdir -p /srv/odoo
+RUN mkdir -p /opt/odoo
 
 RUN mkdir -p /opt/odoo/core
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-branch /opt/odoo/core
@@ -63,5 +66,14 @@ RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --sing
 RUN mkdir -p /opt/odoo/extra/stock-logistics-workflow
 RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
 
-RUN mkdir -p /srv/odoo
+# Crea utente di servizio
+RUN groupadd -g 90 odoo
+RUN useradd -m -d /opt/odoo -s /bin/bash -u 90 -g 90 odoo
+RUN chown -R odoo:odoo /srv/odoo
+RUN chown -R odoo:odoo /opt/odoo
+USER odoo
+WORKDIR /opt/odoo
+
+# Definisce comando di avvio
 CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract,/opt/odoo/extra/stock-logistics-workflow
+
