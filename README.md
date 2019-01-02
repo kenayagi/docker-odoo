@@ -43,7 +43,7 @@ services:
 
   app:
     restart: unless-stopped
-    image: kenayagi/odoo
+    image: kenayagi/odoo:2019.01.02.01
     depends_on:
       - db
     environment:
