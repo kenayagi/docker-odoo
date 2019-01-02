@@ -15,7 +15,7 @@ admin_passwd = MyOdooDBAdminSuperSecretPassword
 ```
 
 
-If already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
+Then, if already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
 
 
 ```
@@ -23,13 +23,13 @@ If already using [Traefik](https://traefik.io/) and [Docker Compose](https://doc
 version: 2
 
 services:
-  odoo-db:
+  db:
     restart: unless-stopped
     image: postgres:9.6-alpine
     networks:
       odoo:
         aliases:
-          - odoo-db
+          - db
     logging:
       driver: journald
     environment:
@@ -41,13 +41,13 @@ services:
     labels:
       - traefik.enable=false
 
-  odoo-app:
+  app:
     restart: unless-stopped
     image: kenayagi/odoo
     depends_on:
-      - odoo-db
+      - db
     environment:
-      - POSTGRES_HOST=odoo-db
+      - POSTGRES_HOST=db
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=DBUserPassword
       - TZ='Europe/Rome'
