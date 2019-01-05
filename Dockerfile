@@ -53,7 +53,6 @@ RUN git clone https://github.com/OCA/partner-contact.git --depth 1 --branch 10.0
 # Aggiunge anno fiscale ed utilità per contabilizzazione
 RUN mkdir -p /opt/odoo/extra/account-financial-tools
 RUN git clone https://github.com/OCA/account-financial-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-financial-tools
-RUN pip install -r /opt/odoo/extra/account-financial-tools/requirements.txt
 
 # Funzione DB Backup automatica
 RUN mkdir -p /opt/odoo/extra/server-tools
