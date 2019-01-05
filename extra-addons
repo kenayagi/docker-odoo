@@ -1,23 +1,14 @@
 ## Additional addons, to eventually include in Dockerfile
 
+## Motori report aggiuntivi
 #RUN mkdir -p /opt/odoo/extra/reporting-engine
 #RUN git clone https://github.com/OCA/reporting-engine.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/reporting-engine
 #RUN pip install -r /opt/odoo/extra/reporting-engine/requirements.txt
 
-#RUN mkdir -p /opt/odoo/extra/account-payment
-#RUN git clone https://github.com/OCA/account-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-payment
-
-#RUN mkdir -p /opt/odoo/extra/web
-#RUN git clone https://github.com/OCA/web.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/web
-
+## Tema responsivo per frontend
 #RUN mkdir -p /opt/odoo/extra/theme-ow
 #RUN git clone https://github.com/Openworx/backend_theme.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/theme-ow
 
-#RUN mkdir -p /opt/odoo/extra/project
-#RUN git clone https://github.com/OCA/project.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/project
-
+## Pagamenti bancari automatici
 #RUN mkdir -p /opt/odoo/extra/bank-payment
 #RUN git clone https://github.com/OCA/bank-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/bank-payment
-
-#RUN mkdir -p /opt/odoo/extra/account-invoicing
-#RUN git clone https://github.com/OCA/account-invoicing.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-invoicing
