@@ -8,7 +8,3 @@
 ## Tema responsivo per frontend
 #RUN mkdir -p /opt/odoo/extra/theme-ow
 #RUN git clone https://github.com/Openworx/backend_theme.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/theme-ow
-
-## Pagamenti bancari automatici
-#RUN mkdir -p /opt/odoo/extra/bank-payment
-#RUN git clone https://github.com/OCA/bank-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/bank-payment
