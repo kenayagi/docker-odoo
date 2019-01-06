@@ -87,6 +87,9 @@ RUN git clone https://github.com/OCA/account-invoicing.git --depth 1 --branch 10
 RUN mkdir -p /opt/odoo/extra/product-attribute
 RUN git clone https://github.com/OCA/product-attribute.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/product-attribute
 
+# Commissioni
+RUN mkdir -p /opt/odoo/extra/commission
+RUN git clone https://github.com/OCA/commission.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/commission
 
 # Crea utente di servizio
 RUN groupadd -g 90 odoo
@@ -98,4 +101,4 @@ WORKDIR /opt/odoo
 
 
 # Definisce comando di avvio
-CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract,/opt/odoo/extra/stock-logistics-workflow,/opt/odoo/extra/account-payment,/opt/odoo/extra/web,/opt/odoo/extra/project,/opt/odoo/extra/account-invoicing,/opt/odoo/extra/product-attribute
+CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract,/opt/odoo/extra/stock-logistics-workflow,/opt/odoo/extra/account-payment,/opt/odoo/extra/web,/opt/odoo/extra/project,/opt/odoo/extra/account-invoicing,/opt/odoo/extra/product-attribute,/opt/odoo/extra/commission
