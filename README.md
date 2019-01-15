@@ -5,12 +5,15 @@ It's based on OCA/OCB with Italian localization and some other useful addons.
 
 It needs an external container for DB and some mapped folders for persistent data.
 
-Firstly create the odoo.conf file containing your Odoo DB admin password:
+Firstly create the odoo.conf file containing your Odoo settings:
 
 ```
 
 [options]
 admin_passwd = MyOdooDBAdminSuperSecretPassword
+proxy_mode = True
+addons_path = /opt/odoo/core/addons,/opt/odoo/extra/...
+
 
 ```
 

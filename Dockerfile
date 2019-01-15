@@ -43,8 +43,30 @@ WORKDIR /opt/odoo
 # Core
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-branch /opt/odoo/core
 
+
 # Prepara cartella per addons aggiuntivi
 RUN mkdir -p /opt/odoo/extra
+
+# Aggiunge anno fiscale ed utilità per contabilizzazione
+RUN git clone https://github.com/OCA/account-financial-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-financial-tools
+
+# Regole per posizione fiscale
+RUN git clone https://github.com/OCA/account-fiscal-rule.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-fiscal-rule
+
+# Funzioni aggiuntive per fatturazione
+RUN git clone https://github.com/OCA/account-invoicing.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-invoicing
+
+# Modalità di pagamento
+RUN git clone https://github.com/OCA/account-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-payment
+
+# Pagamenti bancari automatici
+RUN git clone https://github.com/OCA/bank-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/bank-payment
+
+# Commissioni
+RUN git clone https://github.com/OCA/commission.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/commission
+
+# Contratti e fatture ricorrenti
+RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
 
 # Localizzazione italiana
 RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/l10n-italy
@@ -52,41 +74,24 @@ RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --si
 # Migliorie CAP e province + separazione nome/cognome per partner
 RUN git clone https://github.com/OCA/partner-contact.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/partner-contact
 
-# Aggiunge anno fiscale ed utilità per contabilizzazione
-RUN git clone https://github.com/OCA/account-financial-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-financial-tools
+# Utilità per attributi prodotto
+RUN git clone https://github.com/OCA/product-attribute.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/product-attribute
 
-# Funzione DB Backup automatica
-RUN git clone https://github.com/OCA/server-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/server-tools
-
-# Contratti e fatture ricorrenti
-RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
-
-# Aggiunge supporto per i DDT 
-RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
-
-# Modalità di pagamento
-RUN git clone https://github.com/OCA/account-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-payment
-
-# Migliorie webclient
-RUN git clone https://github.com/OCA/web.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/web
+# Funzioni aggiuntive per varianti prodotto
+RUN git clone https://github.com/OCA/product-variant.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/product-variant
 
 # Funzioni aggiuntive per progetti
 RUN git clone https://github.com/OCA/project.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/project
 
-# Funzioni aggiuntive per fatturazione
-RUN git clone https://github.com/OCA/account-invoicing.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-invoicing
+# Funzione DB Backup automatica
+RUN git clone https://github.com/OCA/server-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/server-tools
 
-# Utilità per attributi prodotto
-RUN git clone https://github.com/OCA/product-attribute.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/product-attribute
+# Aggiunge supporto per i DDT 
+RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
 
-# Commissioni
-RUN git clone https://github.com/OCA/commission.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/commission
+# Migliorie webclient
+RUN git clone https://github.com/OCA/web.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/web
 
-# Pagamenti bancari automatici
-RUN git clone https://github.com/OCA/bank-payment.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/bank-payment
-
-# Regole per posizione fiscale
-RUN git clone https://github.com/OCA/account-fiscal-rule.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-fiscal-rule
 
 # Installazione dipendenze
 USER root
@@ -101,4 +106,4 @@ USER odoo
 WORKDIR /opt/odoo
 
 # Definisce comando di avvio
-CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD --addons-path=/opt/odoo/core/addons,/opt/odoo/extra/l10n-italy,/opt/odoo/extra/partner-contact,/opt/odoo/extra/account-financial-tools,/opt/odoo/extra/server-tools,/opt/odoo/extra/contract,/opt/odoo/extra/stock-logistics-workflow,/opt/odoo/extra/account-payment,/opt/odoo/extra/web,/opt/odoo/extra/project,/opt/odoo/extra/account-invoicing,/opt/odoo/extra/product-attribute,/opt/odoo/extra/commission,/opt/odoo/extra/bank-payment,/opt/odoo/extra/account-fiscal-rule
+CMD /opt/odoo/core/odoo-bin --data-dir=/srv/odoo --config=/srv/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD
