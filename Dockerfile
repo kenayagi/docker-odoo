@@ -68,6 +68,9 @@ RUN git clone https://github.com/OCA/commission.git --depth 1 --branch 10.0 --si
 # Contratti e fatture ricorrenti
 RUN git clone https://github.com/OCA/contract.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/contract
 
+# Personalizzazioni Efatto
+RUN git clone https://github.com/efatto/efatto.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/efatto
+
 # Localizzazione italiana
 RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/l10n-italy
 
