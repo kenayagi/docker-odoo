@@ -47,6 +47,10 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-br
 # Prepara cartella per addons aggiuntivi
 RUN mkdir -p /opt/odoo/extra
 
+# Moduli personalizzati
+RUN git clone https://github.com/kenayagi/odoo-modules.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/custom
+
+
 # Aggiunge anno fiscale ed utilità per contabilizzazione
 RUN git clone https://github.com/OCA/account-financial-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/account-financial-tools
 
