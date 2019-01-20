@@ -106,7 +106,7 @@ RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
 RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
-RUN pip install codicefiscale configparser evdev future odooly pyXB==1.2.5 unidecode unicodecsv
+RUN pip install codicefiscale configparser erppeek evdev future odooly pyXB==1.2.5 unidecode unicodecsv
 
 # Imposta utente di esecuzione container
 USER odoo
