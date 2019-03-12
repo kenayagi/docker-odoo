@@ -96,6 +96,9 @@ RUN git clone https://github.com/OCA/sale-workflow.git --depth 1 --branch 10.0 -
 # Funzione DB Backup automatica
 RUN git clone https://github.com/OCA/server-tools.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/server-tools
 
+# Migliori messaggistica
+RUN git clone https://github.com/OCA/social.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/social
+
 # Aggiunge supporto per i DDT 
 RUN git clone https://github.com/OCA/stock-logistics-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/stock-logistics-workflow
 
@@ -108,6 +111,7 @@ USER root
 RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
+RUN pip install -r /opt/odoo/extra/social/requirements.txt
 RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
 RUN pip install codicefiscale configparser erppeek evdev future odooly pyXB==1.2.5 unidecode unicodecsv
 
