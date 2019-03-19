@@ -90,6 +90,9 @@ RUN git clone https://github.com/OCA/product-variant.git --depth 1 --branch 10.0
 # Funzioni aggiuntive per progetti
 RUN git clone https://github.com/OCA/project.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/project
 
+# Funzioni aggiuntive per flusso acquisti
+RUN git clone https://github.com/OCA/purchase-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/purchase-workflow
+
 # Funzioni aggiuntive per vendite
 RUN git clone https://github.com/OCA/sale-workflow.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/sale-workflow
 
