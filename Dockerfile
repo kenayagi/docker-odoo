@@ -81,6 +81,9 @@ RUN git clone https://github.com/OCA/l10n-italy.git --depth 1 --branch 10.0 --si
 # Migliorie CAP e province + separazione nome/cognome per partner
 RUN git clone https://github.com/OCA/partner-contact.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/partner-contact
 
+# Punto vendita
+RUN git clone https://github.com/OCA/pos.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/pos
+
 # Utilità per attributi prodotto
 RUN git clone https://github.com/OCA/product-attribute.git --depth 1 --branch 10.0 --single-branch /opt/odoo/extra/product-attribute
 
@@ -114,6 +117,7 @@ USER root
 RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/core/requirements.txt
 RUN pip install -r /opt/odoo/core/doc/requirements.txt
+RUN pip install -r /opt/odoo/extra/pos/requirements.txt
 RUN pip install -r /opt/odoo/extra/social/requirements.txt
 RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
 RUN pip install codicefiscale configparser erppeek evdev future odooly pyXB==1.2.5 unidecode unicodecsv
