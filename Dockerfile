@@ -120,7 +120,7 @@ RUN pip install -r /opt/odoo/core/doc/requirements.txt
 RUN pip install -r /opt/odoo/extra/pos/requirements.txt
 RUN pip install -r /opt/odoo/extra/social/requirements.txt
 RUN pip install -r /opt/odoo/extra/server-tools/requirements.txt
-RUN pip install codicefiscale configparser erppeek evdev future odooly pyXB==1.2.5 unidecode unicodecsv
+RUN pip install codicefiscale configparser erppeek evdev future odooly pyXB==1.2.6 unidecode unicodecsv
 
 # Imposta utente di esecuzione container
 USER odoo
