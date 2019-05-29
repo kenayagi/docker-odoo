@@ -39,15 +39,20 @@ RUN mkdir -p /mnt/extra-addons
 RUN chown -R odoo:odoo /etc/odoo /mnt/extra-addons /opt
 
 USER odoo
-
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-branch /opt/odoo
 
-RUN pip install --user -r /opt/odoo/requirements.txt
-RUN pip install --user -r /opt/odoo/doc/requirements.txt
-RUN pip install --user codicefiscale configparser evdev future odooly pyXB==1.2.6 unidecode unicodecsv validate_email
+USER root
+RUN pip install -r /opt/odoo/requirements.txt
+RUN pip install -r /opt/odoo/doc/requirements.txt
+RUN pip install codicefiscale configparser evdev future odooly passlib pyXB==1.2.6 unidecode unicodecsv validate_email
 
+USER odoo
 WORKDIR /var/lib/odoo
 
 COPY odoo.conf /etc/odoo
+
+EXPOSE 8069 8071 8072
+
+VOLUME /mnt/extra-addons /var/lib/odoo
 
 CMD /opt/odoo/odoo-bin --data-dir=/var/lib/odoo --config=/etc/odoo/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD

@@ -1,20 +1,14 @@
 # Unofficial Odoo 10 for Docker
 
 This is a dockerized Odoo 10 setup.
-It's based on OCA/OCB with Italian localization and some other useful addons.
 
 It needs an external container for DB and some mapped folders for persistent data.
 
-Firstly create the odoo.conf file containing your Odoo settings:
+You can customize the odoo.conf file containing your Odoo settings:
 
 ```
-
 [options]
 admin_passwd = MyOdooDBAdminSuperSecretPassword
-proxy_mode = True
-addons_path = /opt/odoo/core/addons,/opt/odoo/extra/...
-
-
 ```
 
 
@@ -22,70 +16,58 @@ Then, if already using [Traefik](https://traefik.io/) and [Docker Compose](https
 
 
 ```
-
-version: 2
+version: "2"
 
 services:
-  db:
-    restart: unless-stopped
-    image: postgres:9.6-alpine
-    networks:
-      odoo:
-        aliases:
-          - db
-    logging:
-      driver: journald
-    environment:
-      - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=DBUserPassword
-      - TZ='Europe/Rome'
-    volumes:
-      - /srv/docker/odoo/db/data:/var/lib/postgresql/data
-    labels:
-      - traefik.enable=false
-
   app:
+    image: kenayagi/odoo:10.0
     restart: unless-stopped
-    image: kenayagi/odoo:latest
+    volumes:
+      - /srv/docker/odoo/app/addons:/mnt/extra-addons
+      - /srv/docker/odoo/app/data:/var/lib/odoo
+      - /srv/docker/odoo/app/odoo.conf:/etc/odoo/odoo.conf
+    networks:
+      - traefik
+      - net
     depends_on:
       - db
     environment:
+      - TZ=Europe/Rome
       - POSTGRES_HOST=db
       - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=DBUserPassword
-      - TZ='Europe/Rome'
-    expose:
-      - 8069
-      - 8072
-    volumes:
-      - /srv/docker/odoo/app/data:/srv/odoo
-      - /srv/docker/odoo/app/odoo.conf:/srv/odoo.conf:ro
-    logging:
-      driver: journald
-    networks:
-      - traefik
-      - odoo
+      - POSTGRES_PASSWORD=PassWooorD
     labels:
       - traefik.enable=true
       - traefik.odoo.port=8069
-      - traefik.odoo.backend=odoo
-      - traefik.odoo.frontend.rule=Host:odoo.yourdomain.com
+      - traefik.odoo.backend=main
+      - traefik.odoo.frontend.rule=Host:odoo.domain.com
       - traefik.odoo.frontend.redirect.entryPoint=https
-      - traefik.odoolp.port=8072
-      - traefik.odoolp.backend=odoo-lp
-      - traefik.odoolp.frontend.rule=Host:odoo.yourdomain.com;PathPrefixStrip:/longpolling
-      - traefik.odoolp.frontend.redirect.entryPoint=https
-      - traefik.odoodm.frontend.rule=Host:odoo.yourdomain.com;Path:/web/database/manager
+      - traefik.odoodm.port=8069
+      - traefik.odoodm.backend=dm
+      - traefik.odoodm.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
       - traefik.odoodm.frontend.redirect.entryPoint=https
-      - traefik.odoodm.frontend.whiteList.sourceRange=192.168.1.0/16
-      - traefik.odoodm.backend=odoo
-      - traefik.docker.network=traefik
+      - traefik.odoodm.frontend.whiteList.sourceRange=192.168.1.0/24
+      - traefik.odoolp.port=8072
+      - traefik.odoolp.backend=lp
+      - traefik.odoolp.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
+      - traefik.odoolp.frontend.redirect.entryPoint=https
+      
+  db:
+    image: postgres:9.6-alpine
+    restart: unless-stopped
+    volumes:
+      - /srv/docker/odoo/db/data:/var/lib/postgresql/data
+    networks:
+      - net
+    environment:
+      - TZ=Europe/Rome
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=PassWooorD
       
 networks:
-  odoo:
+  net:
   traefik:
     external:
       name: traefik
-
 ```
 
