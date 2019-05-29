@@ -45,6 +45,7 @@ USER root
 RUN pip install -r /opt/odoo/requirements.txt
 RUN pip install -r /opt/odoo/doc/requirements.txt
 RUN pip install codicefiscale configparser evdev future odooly passlib pyXB==1.2.6 unidecode unicodecsv validate_email
+RUN pip install /opt/odoo
 
 USER odoo
 WORKDIR /var/lib/odoo
