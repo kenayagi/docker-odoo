@@ -53,7 +53,7 @@ services:
       - traefik.odoolp.frontend.redirect.entryPoint=https
       
   db:
-    image: postgres:9.6-alpine
+    image: postgres:11.3-alpine
     restart: unless-stopped
     volumes:
       - /srv/docker/odoo/db/data:/var/lib/postgresql/data
