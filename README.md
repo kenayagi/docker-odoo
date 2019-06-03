@@ -3,6 +3,7 @@
 This is a dockerized Odoo 10 setup.
 
 It needs an external container for DB and some mapped folders for persistent data.
+
 Odoo user will run with UID 105 and GID 109.
 
 You can customize the odoo.conf file containing your Odoo settings:
