@@ -35,8 +35,7 @@ ENV LANG=it_IT.UTF-8
 RUN groupadd -g 109 odoo
 RUN useradd -m -d /var/lib/odoo -s /bin/bash -u 105 -g 109 odoo
 RUN mkdir -p /etc/odoo
-RUN mkdir -p /mnt/extra-addons
-RUN chown -R odoo:odoo /etc/odoo /mnt/extra-addons /opt
+RUN chown -R odoo:odoo /etc/odoo /opt
 
 USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-branch /opt/odoo
@@ -44,7 +43,6 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 10.0 --single-br
 USER root
 RUN pip install -r /opt/odoo/requirements.txt
 RUN pip install -r /opt/odoo/doc/requirements.txt
-RUN pip install codicefiscale configparser evdev future odooly passlib pyXB==1.2.6 unidecode unicodecsv validate_email
 RUN pip install /opt/odoo
 
 USER odoo
@@ -54,6 +52,6 @@ COPY odoo.conf /etc/odoo
 
 EXPOSE 8069 8071 8072
 
-VOLUME /mnt/extra-addons /var/lib/odoo
+VOLUME /var/lib/odoo
 
 CMD /opt/odoo/odoo-bin --data-dir=/var/lib/odoo --config=/etc/odoo/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD

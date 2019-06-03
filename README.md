@@ -23,7 +23,6 @@ services:
     image: kenayagi/odoo:10.0
     restart: unless-stopped
     volumes:
-      - /srv/docker/odoo/app/addons:/mnt/extra-addons
       - /srv/docker/odoo/app/data:/var/lib/odoo
       - /srv/docker/odoo/app/odoo.conf:/etc/odoo/odoo.conf
     networks:
@@ -53,7 +52,7 @@ services:
       - traefik.odoolp.frontend.redirect.entryPoint=https
       
   db:
-    image: postgres:9.6-alpine
+    image: postgres:11.3
     restart: unless-stopped
     volumes:
       - /srv/docker/odoo/db/data:/var/lib/postgresql/data
