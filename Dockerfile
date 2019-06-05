@@ -60,15 +60,15 @@ RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/requirements.txt
 RUN pip install -r /opt/odoo/doc/requirements.txt
 RUN pip install /opt/odoo
-RUN pip install odoo-autodiscover
 
 USER odoo
 WORKDIR /var/lib/odoo
 
 COPY odoo.conf /etc/odoo
+COPY run.sh /run.sh
 
 EXPOSE 8069 8071 8072
 
 VOLUME /var/lib/odoo
 
-CMD /opt/odoo/odoo-bin --data-dir=/var/lib/odoo --config=/etc/odoo/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD
+CMD /bin/bash /run.sh
