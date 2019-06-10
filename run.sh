@@ -3,7 +3,7 @@
 REQ_PATH=/var/lib/odoo/setup/requirements.txt
 
 if [ -f $REQ_PATH ]; then
-    pip install --pre --user -r $REQ_PATH
+    pip install --pre --user --upgrade -r $REQ_PATH
     mkdir -p /var/lib/odoo/setup/done
     mv $REQ_PATH /var/lib/odoo/setup/done/installed-on-`date +%y%m%d`-at-`date +%H%M%S`.txt
 fi

@@ -60,6 +60,7 @@ RUN pip install --upgrade pip
 RUN pip install -r /opt/odoo/requirements.txt
 RUN pip install -r /opt/odoo/doc/requirements.txt
 RUN pip install /opt/odoo
+RUN pip install Unidecode
 
 USER odoo
 WORKDIR /var/lib/odoo
