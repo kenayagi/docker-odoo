@@ -8,4 +8,4 @@ if [ -f $REQ_PATH ]; then
     mv $REQ_PATH /var/lib/odoo/setup/done/installed-on-`date +%y%m%d`-at-`date +%H%M%S`.txt
 fi
 
-/opt/odoo/odoo-bin --data-dir=/var/lib/odoo --config=/etc/odoo/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD
+/usr/local/bin/odoo --data-dir=/var/lib/odoo --config=/etc/odoo/odoo.conf --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD
