@@ -37,21 +37,22 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
+      - ODOO_DATADIR=/var/lib/odoo
+      - ODOO_CONF=/etc/odoo/odoo.conf
+      - REQ_FILE=requirements.txt # relative to $ODOO_DATADIR
+      - ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
     labels:
       - traefik.enable=true
-      - traefik.odoo.port=8069
-      - traefik.odoo.backend=main
-      - traefik.odoo.frontend.rule=Host:odoo.domain.com
-      - traefik.odoo.frontend.redirect.entryPoint=https
-      - traefik.odoodm.port=8069
-      - traefik.odoodm.backend=dm
-      - traefik.odoodm.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
-      - traefik.odoodm.frontend.redirect.entryPoint=https
-      - traefik.odoodm.frontend.whiteList.sourceRange=192.168.1.0/24
-      - traefik.odoolp.port=8072
-      - traefik.odoolp.backend=lp
-      - traefik.odoolp.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
-      - traefik.odoolp.frontend.redirect.entryPoint=https
+      - traefik.f.port=8069
+      - traefik.f.frontend.rule=Host:odoo.domain.com
+      - traefik.f.frontend.redirect.entryPoint=https
+      - traefik.m.port=8069
+      - traefik.m.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
+      - traefik.m.frontend.redirect.entryPoint=https
+      - traefik.m.frontend.whiteList.sourceRange=192.168.1.0/24
+      - traefik.p.port=8072
+      - traefik.p.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
+      - traefik.p.frontend.redirect.entryPoint=https
       
   db:
     image: postgres:11.3

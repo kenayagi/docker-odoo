@@ -3,6 +3,15 @@ FROM debian:stretch
 ARG ODOO_UID=105
 ARG ODOO_GID=109
 
+ENV ODOO_DATADIR=/var/lib/odoo
+ENV ODOO_CONF=/etc/odoo/odoo.conf
+
+ENV REQ_PATH=$ODOO_DATADIR/requirements.txt
+ENV ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
+ENV POSTGRES_HOST=db
+ENV POSTGRES_USER=odoo
+ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
+
 RUN apt update && apt -y upgrade && apt -y install \
     build-essential \
     bzip2 \
