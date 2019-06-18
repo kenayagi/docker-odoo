@@ -4,9 +4,9 @@ ARG ODOO_UID=105
 ARG ODOO_GID=109
 
 ENV ODOO_DATADIR=/var/lib/odoo
-ENV ODOO_CONF=/etc/odoo/odoo.conf
+ENV ODOO_CONF=/var/lib/odoo/odoo.conf
 
-ENV REQ_PATH=$ODOO_DATADIR/requirements.txt
+ENV REQ_PATH=/var/lib/odoo/requirements.txt
 ENV ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
