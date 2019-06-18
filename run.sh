@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ -f $ODOO_DATADIR/$REQ_FILE ]; then
-    pip install --pre --user --upgrade -r $REQ_PATH
+if [ -f $REQ_FILE ]; then
+    pip install --pre --user --upgrade -r $REQ_FILE
     mkdir -p $ODOO_DATADIR/setup
-    mv $REQ_PATH $ODOO_DATADIR/setup/requirements-installed-on-`date +%y%m%d`-at-`date +%H%M%S`.txt
+    mv $REQ_FILE $ODOO_DATADIR/setup/requirements-installed-on-`date +%y%m%d`-at-`date +%H%M%S`.txt
 fi
 
 sed -i "/^admin_passwd/c\admin_passwd=$ADMIN_PASSWD" $ODOO_CONF

@@ -2,19 +2,12 @@
 
 This is a dockerized Odoo 10 setup.
 
-It needs an external container for DB and some mapped folders for persistent data.
+It needs an external container for DB and a single volume for persistent data.
 
-Odoo user will run with UID 105 and GID 109.
-
-You can customize the odoo.conf file containing your Odoo settings:
-
-```
-[options]
-admin_passwd = MyOdooDBAdminSuperSecretPassword
-```
-
-
-Then, if already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
+Quick notes:
+Odoo user will run with UID 105 and GID 109: prepare your volume with proper owner/rights.
+To choose your admin_passwd you can declare it with the ADMIN_PASSWD environment variable.
+If already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
 
 
 ```
@@ -26,7 +19,6 @@ services:
     restart: unless-stopped
     volumes:
       - /srv/docker/odoo/app/data:/var/lib/odoo
-      - /srv/docker/odoo/app/odoo.conf:/etc/odoo/odoo.conf
     networks:
       - traefik
       - net
@@ -38,8 +30,8 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
       - ODOO_DATADIR=/var/lib/odoo
-      - ODOO_CONF=/etc/odoo/odoo.conf
-      - REQ_FILE=requirements.txt # relative to $ODOO_DATADIR
+      - ODOO_CONF=/var/lib/odoo/odoo.conf
+      - REQ_FILE=/var/lib/odoo/requirements.txt
       - ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
     labels:
       - traefik.enable=true
