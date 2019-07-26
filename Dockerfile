@@ -43,6 +43,7 @@ RUN npm install -g less less-plugin-clean-css
 
 RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb -o /tmp/wkhtmltopdf.deb
 RUN apt -y install /tmp/wkhtmltopdf.deb
+RUN rm /tmp/wkhtmltopdf.deb
 
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -74,7 +75,8 @@ RUN pip install Unidecode
 USER odoo
 WORKDIR /var/lib/odoo
 
-COPY odoo.conf /etc/odoo
+COPY odoo.conf /tmp/odoo.conf.default
+#TODO creare file di configurazione in $ODOO_CONF (se non esiste sul volume)
 COPY run.sh /run.sh
 
 EXPOSE 8069 8071 8072
