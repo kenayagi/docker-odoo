@@ -16,9 +16,9 @@ version: "2"
 services:
   app:
     image: kenayagi/odoo:10.0
-    restart: unless-stopped
+    restart: always
     volumes:
-      - /srv/docker/odoo/app/data:/var/lib/odoo
+      - /srv/odoodata/installationid:/var/lib/odoo
     networks:
       - traefik
       - net
@@ -47,10 +47,11 @@ services:
       - traefik.p.frontend.redirect.entryPoint=https
       
   db:
-    image: postgres:11.3
-    restart: unless-stopped
+    image: postgres:11.5
+    command: -c "synchronous_commit=off" -c "full_page_writes=off" # Useful when based on ZFS
+    restart: always
     volumes:
-      - /srv/docker/odoo/db/data:/var/lib/postgresql/data
+      - /srv/postgres/installationid:/var/lib/postgresql/data
     networks:
       - net
     environment:
