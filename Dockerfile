@@ -6,6 +6,7 @@ ARG ODOO_GID=109
 ENV ODOO_DATADIR=/var/lib/odoo
 ENV ODOO_CONF=/var/lib/odoo/odoo.conf
 
+ENV UPD_FILE=/var/lib/odoo/update.txt
 ENV REQ_FILE=/var/lib/odoo/requirements.txt
 ENV ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 ENV POSTGRES_HOST=db
@@ -71,6 +72,7 @@ RUN pip install -r /opt/odoo/requirements.txt
 RUN pip install -r /opt/odoo/doc/requirements.txt
 RUN pip install /opt/odoo
 RUN pip install Unidecode
+RUN pip install git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR /var/lib/odoo
