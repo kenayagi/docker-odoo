@@ -11,7 +11,7 @@ If already using [Traefik](https://traefik.io/) and [Docker Compose](https://doc
 
 
 ```
-version: "3"
+version: "2.1"
 
 services:
   app:
@@ -54,10 +54,11 @@ services:
       - net
     environment:
       - TZ=Europe/Rome
+      - ODOO_DB=installationid
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$ODOO_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
