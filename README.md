@@ -11,7 +11,7 @@ If already using [Traefik](https://traefik.io/) and [Docker Compose](https://doc
 
 
 ```
-version: "2"
+version: "3"
 
 services:
   app:
@@ -23,16 +23,14 @@ services:
       - traefik
       - net
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - TZ=Europe/Rome
-      - POSTGRES_HOST=db
+      - ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
+      - ODOO_DB=installationid
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
-      - ODOO_DATADIR=/var/lib/odoo
-      - ODOO_CONF=/var/lib/odoo/odoo.conf
-      - REQ_FILE=/var/lib/odoo/requirements.txt
-      - ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
     labels:
       - traefik.enable=true
       - traefik.f.port=8069
@@ -58,7 +56,12 @@ services:
       - TZ=Europe/Rome
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
-      
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   net:
   traefik:
