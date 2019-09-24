@@ -15,7 +15,7 @@ version: "2.1"
 
 services:
   app:
-    image: kenayagi/odoo:10.0
+    image: kenayagi/odoo:12.0
     restart: always
     volumes:
       - /srv/odoodata/installationid:/var/lib/odoo
