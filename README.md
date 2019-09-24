@@ -1,6 +1,6 @@
-# Odoo 10 Dockerized
+# Odoo 12 Dockerized
 
-This is a dockerized Odoo 10 setup.
+This is a dockerized Odoo 12 setup.
 
 It needs an external container for DB and a single volume for persistent data.
 
