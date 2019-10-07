@@ -5,7 +5,7 @@ This is a dockerized Odoo 12 setup.
 It needs an external container for DB and a single volume for persistent data.
 
 Quick notes:
-Odoo user will run with UID 105 and GID 109: prepare your volume with proper owner/rights.
+Odoo user will run with UID 3328 and GID 3328: prepare your volume with proper owner/rights.
 To choose your admin_passwd you can declare it with the ADMIN_PASSWD environment variable.
 If already using [Traefik](https://traefik.io/) and [Docker Compose](https://docs.docker.com/compose/), you can create the stack with something like:
 
