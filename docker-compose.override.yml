@@ -1,0 +1,31 @@
+version: '2.1'
+
+services:
+  app:
+    image: kenayagi/odoo:12.1.0.6
+    environment:
+      - ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
+      - ODOO_DB=installationid
+      - POSTGRES_PASSWORD=Pa5sWo0orD
+    labels:
+      - traefik.f.frontend.rule=Host:odoo.domain.com
+      - traefik.m.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
+      - traefik.m.frontend.whiteList.sourceRange=192.168.1.0/24
+      - traefik.p.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
+  db:
+    command: -c "synchronous_commit=off" -c "full_page_writes=off" -c "shared_buffers=3GB"
+    environment:
+      - ODOO_DB=installationid
+      - POSTGRES_PASSWORD=Pa5sWo0orD
+
+volumes:
+  odoodata:
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/odoodata/installationid
+  pgdata:
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/postgres/installationid
