@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   app:
-    image: kenayagi/odoo:12.1.0.6
+    image: kenayagi/odoo:12.1.1.1
     environment:
       - ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
       - ODOO_DB=installationid
@@ -13,7 +13,7 @@ services:
       - traefik.m.frontend.whiteList.sourceRange=192.168.1.0/24
       - traefik.p.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
   db:
-    command: -c "synchronous_commit=off" -c "full_page_writes=off" -c "shared_buffers=3GB"
+    command: -c "synchronous_commit=off" -c "full_page_writes=off" -c "shared_buffers=512MB" # Useful when based on ZFS
     environment:
       - ODOO_DB=installationid
       - POSTGRES_PASSWORD=Pa5sWo0orD

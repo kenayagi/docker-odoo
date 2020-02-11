@@ -14,26 +14,18 @@ services:
         condition: service_healthy
     environment:
       - TZ=Europe/Rome
-      - ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
-      - ODOO_DB=installationid
       - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=PassWooorD
     labels:
       - traefik.enable=true
       - traefik.f.port=8069
-      - traefik.f.frontend.rule=Host:odoo.domain.com
       - traefik.f.frontend.redirect.entryPoint=https
       - traefik.m.port=8069
-      - traefik.m.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
       - traefik.m.frontend.redirect.entryPoint=https
-      - traefik.m.frontend.whiteList.sourceRange=192.168.1.0/24
       - traefik.p.port=8072
-      - traefik.p.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
       - traefik.p.frontend.redirect.entryPoint=https
 
   db:
-    image: postgres:11.5
-    command: -c "synchronous_commit=off" -c "full_page_writes=off" # Useful when based on ZFS
+    image: postgres:11.6
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -41,9 +33,7 @@ services:
       - net
     environment:
       - TZ=Europe/Rome
-      - ODOO_DB=installationid
       - POSTGRES_USER=odoo
-      - POSTGRES_PASSWORD=Pa5sWo0orD
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$ODOO_DB"]
       interval: 10s
