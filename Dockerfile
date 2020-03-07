@@ -43,8 +43,11 @@ RUN apt update && apt -y upgrade && apt -y --no-install-recommends install \
     unzip \
     vim \
     wget \
-    wkhtmltopdf=0.12.5-1 \
     zlib1g-dev
+
+RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb
+RUN apt -y install /tmp/wkhtmltopdf.deb
+RUN rm /tmp/wkhtmltopdf.deb
 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
