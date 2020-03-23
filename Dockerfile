@@ -15,7 +15,9 @@ ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 
-RUN apt update && apt -y upgrade && apt -y --no-install-recommends install \
+ENV LANG=it_IT.UTF-8
+
+RUN apt update && apt -y --no-install-recommends install \
     build-essential \
     bzip2 \
     curl \
@@ -32,7 +34,6 @@ RUN apt update && apt -y upgrade && apt -y --no-install-recommends install \
     libsasl2-dev \
     libwebp-dev \
     locales \
-    lsb-release \
     nano \
     procps \
     python3 \
@@ -43,39 +44,33 @@ RUN apt update && apt -y upgrade && apt -y --no-install-recommends install \
     unzip \
     vim \
     wget \
-    zlib1g-dev
+    zlib1g-dev && \
+    curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
+    apt -y install /tmp/wkhtmltopdf.deb && \
+    rm /tmp/wkhtmltopdf.deb && \
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt update && \
+    apt -y install postgresql-client-11 && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb
-RUN apt -y install /tmp/wkhtmltopdf.deb
-RUN rm /tmp/wkhtmltopdf.deb
+RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
-RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt update && apt -y upgrade
-RUN apt -y install postgresql-client-11
-
-RUN apt clean
-RUN rm -rf /var/lib/apt/lists/*
-
-RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen
-RUN locale-gen
-ENV LANG=it_IT.UTF-8
-
-RUN groupadd -g ${ODOO_GID} odoo
-RUN useradd -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
-RUN mkdir -p /etc/odoo
-RUN chown -R odoo:odoo /etc/odoo /opt
+RUN groupadd -g ${ODOO_GID} odoo && \
+    useradd -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
+    mkdir -p /etc/odoo && \
+    chown -R odoo:odoo /etc/odoo /opt
 
 USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
 
 USER root
-RUN pip3 install --upgrade pip
-RUN pip3 install -r /opt/odoo/requirements.txt
-RUN pip3 install -r /opt/odoo/doc/requirements.txt
-RUN pip3 install /opt/odoo
-RUN pip3 install Unidecode
-RUN pip3 install git+https://github.com/OCA/openupgradelib.git@master
+RUN pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
+    pip3 install --no-cache-dir -r /opt/odoo/doc/requirements.txt && \
+    pip3 install --no-cache-dir /opt/odoo && \
+    pip3 install --no-cache-dir phonenumbers Unidecode && \
+    pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
