@@ -70,7 +70,8 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /opt/odoo/doc/requirements.txt && \
     pip3 install --no-cache-dir /opt/odoo && \
     pip3 install --no-cache-dir phonenumbers Unidecode && \
-    pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+    pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master && \
+    pip3 install --no-cache-dir odoorpc
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
