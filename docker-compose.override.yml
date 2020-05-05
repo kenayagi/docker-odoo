@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   app:
-    image: kenayagi/odoo:12.1.1.3
+    image: kenayagi/odoo:12.1.1.4
     environment:
       - ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
       - ODOO_DB=installationid
