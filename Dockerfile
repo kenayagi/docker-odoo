@@ -41,6 +41,7 @@ RUN apt update && apt -y --no-install-recommends install \
     python3-pip \
     python3-setuptools \
     rsync \
+    tdsodbc \
     unzip \
     vim \
     wget \
