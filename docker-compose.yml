@@ -19,20 +19,28 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=PassWooorD
     labels:
-      - traefik.enable=true
-      - traefik.f.port=8069
-      - traefik.f.frontend.rule=Host:odoo.domain.com
-      - traefik.f.frontend.redirect.entryPoint=https
-      - traefik.m.port=8069
-      - traefik.m.frontend.rule=Host:odoo.domain.com;Path:/web/database/manager
-      - traefik.m.frontend.redirect.entryPoint=https
-      - traefik.m.frontend.whiteList.sourceRange=192.168.1.0/24
-      - traefik.p.port=8072
-      - traefik.p.frontend.rule=Host:odoo.domain.com;PathPrefix:/longpolling
-      - traefik.p.frontend.redirect.entryPoint=https
+      - "traefik.enable=true"
+      - "traefik.http.services.odooidfront.loadbalancer.server.port=8069"
+      - "traefik.http.routers.odooidfront.service=odooidfront"
+      - "traefik.http.routers.odooidfront.middlewares=odooid-compress"
+      - "traefik.http.routers.odooidfront.rule=Host(`odoo.domain.com`)"
+      - "traefik.http.routers.odooidfront.tls.certresolver=le"
+      - "traefik.http.services.odooidmng.loadbalancer.server.port=8069"
+      - "traefik.http.routers.odooidmng.service=odooidmng"
+      - "traefik.http.routers.odooidmng.middlewares=odooid-ipwl,odooid-compress"
+      - "traefik.http.routers.odooidmng.rule=Host(`odoo.domain.com`) && Path(`/web/database/manager/`)"
+      - "traefik.http.routers.odooidmng.tls.certresolver=le"
+      - "traefik.http.services.odooidpoll.loadbalancer.server.port=8072"
+      - "traefik.http.routers.odooidpoll.service=odooidpoll"
+      - "traefik.http.routers.odooidpoll.middlewares=odooid-compress"
+      - "traefik.http.routers.odooidpoll.rule=Host(`odoo.domain.com`) && PathPrefix(`/longpolling`)"
+      - "traefik.http.routers.odooidpoll.tls.certresolver=le"
+      - "traefik.http.middlewares.odooid-ipwl.ipwhitelist.sourcerange=127.0.0.1/32, 192.168.0.0/16"
+      - "traefik.http.middlewares.odooid-compress.compress=true"
 
   db:
     image: postgres:11.5
+    command: -c "synchronous_commit=off" -c "full_page_writes=off" -c "shared_buffers=512MB" # Useful when based on ZFS
     stop_signal: SIGINT
     stop_grace_period: 3m
     restart: always
@@ -54,8 +62,16 @@ services:
 volumes:
   # Storage for Odoo data (filestore, etc.)
   odoodata:
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/odoodata/installationid
   # Storage for PostgreSQL database
   pgdata:
+    driver_opts:
+      type: none
+      o: bind
+      device: /srv/postgres/installationid
 
 networks:
   net:
