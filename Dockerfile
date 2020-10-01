@@ -42,6 +42,7 @@ RUN apt update && apt -y --no-install-recommends install \
     python3-setuptools \
     rsync \
     tdsodbc \
+    telnet \
     unzip \
     vim \
     wget \
@@ -71,7 +72,7 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
     pip3 install --no-cache-dir -r /opt/odoo/doc/requirements.txt && \
     pip3 install --no-cache-dir /opt/odoo && \
-    pip3 install --no-cache-dir pdfkit phonenumbers wheel Unidecode && \
+    pip3 install --no-cache-dir pdfkit phonenumbers pudb wheel Unidecode && \
     pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
