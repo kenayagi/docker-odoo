@@ -27,6 +27,7 @@ RUN apt update && apt -y --no-install-recommends install \
     libgeoip1 \
     libjpeg-dev \
     libpq-dev \
+    libreoffice \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
