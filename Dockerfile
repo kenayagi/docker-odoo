@@ -26,6 +26,7 @@ RUN apt update && apt -y --no-install-recommends install \
     gnupg \
     libgeoip1 \
     libjpeg-dev \
+    libmagic-dev \
     libpq-dev \
     libreoffice \
     libxml2-dev \
