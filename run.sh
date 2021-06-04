@@ -4,7 +4,7 @@ if [ ! -f "$ODOO_CONF_FILE" ]; then
     echo -en "[options]\nproxy_mode = True\naddons_path = /opt/odoo/addons\nadmin_passwd = Db4dm1nSup3rS3cr3tP4ssw0rD" > $ODOO_CONF_FILE
 fi
 
-sed -i "/^admin_passwd/c\admin_passwd=$ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
+sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
 if [ -f "$ODOO_REQ_FILE" ]; then
     pip install --pre --user --upgrade -r $ODOO_REQ_FILE
