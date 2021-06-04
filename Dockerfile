@@ -73,7 +73,6 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-br
 USER root
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    pip3 install --no-cache-dir -r /opt/odoo/doc/requirements.txt && \
     pip3 install --no-cache-dir /opt/odoo && \
     pip3 install --no-cache-dir pdfkit phonenumbers pudb wheel Unidecode && \
     pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
