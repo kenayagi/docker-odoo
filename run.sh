@@ -20,7 +20,6 @@ if [ -f "$ODOO_UPD_FILE" ]; then
     --update=$(< $ODOO_UPD_FILE) --load-language=it_IT --i18n-overwrite --workers=0 --stop-after-init
     mkdir -p $ODOO_HOMEDIR/setup
     echo "Modules updated on $NOW: $(< $ODOO_UPD_FILE)" >> $ODOO_HOMEDIR/setup/updates.log
-    rm $ODOO_UPD_FILE
 fi
 
 /usr/local/bin/odoo --data-dir=$ODOO_HOMEDIR/data_dir --config=$ODOO_CONF_FILE --database=$ODOO_DB --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD \
