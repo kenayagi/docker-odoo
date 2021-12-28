@@ -62,6 +62,10 @@ RUN apt update && apt -y --no-install-recommends install \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+RUN curl -L http://ftp.br.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb -o /tmp/msttf.deb && \
+    apt update && \
+    apt -y install cabextract && \
+    apt -y install /tmp/msttf.deb
 
 RUN groupadd -g ${ODOO_GID} odoo && \
     useradd -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
