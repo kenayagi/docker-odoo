@@ -72,7 +72,7 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
 
 USER root
-RUN pip3 install --no-cache-dir --upgrade pip && \
+RUN pip3 install --no-cache-dir --upgrade pip==21.3.1 && \
     pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
     pip3 install --no-cache-dir /opt/odoo && \
     pip3 install --no-cache-dir pdfkit phonenumbers pudb wheel Unidecode && \
