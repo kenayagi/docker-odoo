@@ -72,11 +72,12 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
 
 USER root
-RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    pip3 install --no-cache-dir /opt/odoo && \
-    pip3 install --no-cache-dir pdfkit phonenumbers pudb wheel Unidecode && \
-    pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir --upgrade wheel && \
+    python3 -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
+    python3 -m pip install --no-cache-dir /opt/odoo && \
+    python3 -m pip install --no-cache-dir pdfkit phonenumbers pudb wheel Unidecode && \
+    python3 -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
