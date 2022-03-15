@@ -57,7 +57,7 @@ RUN apt update && apt -y --no-install-recommends install \
     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt update && \
-    apt -y install postgresql-client-11 && \
+    apt -y install postgresql-client-14 && \
     apt -y dist-upgrade && \
     rm -rf /var/lib/apt/lists/*
 
