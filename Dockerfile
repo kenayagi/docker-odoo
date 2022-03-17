@@ -24,17 +24,18 @@ RUN apt update && apt -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
+    libcups2-dev \
     libgeoip1 \
     libjpeg-dev \
+    libldap2-dev \
     libmagic-dev \
     libpq-dev \
     libreoffice \
+    libsasl2-dev \
+    libwebp-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
-    libldap2-dev \
-    libsasl2-dev \
-    libwebp-dev \
     locales \
     nano \
     procps \
