@@ -24,7 +24,6 @@ RUN apt update && apt -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
-    libcups2-dev \
     libgeoip1 \
     libjpeg-dev \
     libldap2-dev \
