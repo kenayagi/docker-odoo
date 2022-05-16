@@ -60,9 +60,8 @@ RUN apt update && apt -y --no-install-recommends install \
     apt -y install postgresql-client-11 && \
     apt -y dist-upgrade && \
     rm -rf /var/lib/apt/lists/*
-RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && \
-    dpkg-reconfigure --frontend=noninteractive locales && \
-    update-locale LANG=${LANG}
+
+RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 RUN groupadd -g ${ODOO_GID} odoo && \
     useradd -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
