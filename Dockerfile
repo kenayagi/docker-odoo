@@ -76,7 +76,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir --upgrade wheel && \
     python3 -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
     python3 -m pip install --no-cache-dir /opt/odoo && \
-    python3 -m pip install --no-cache-dir escpos pdfkit phonenumbers pudb Unidecode && \
+    python3 -m pip install --no-cache-dir escpos pdfkit phonenumbers pudb scipy Unidecode && \
     python3 -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
