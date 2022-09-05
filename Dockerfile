@@ -26,15 +26,15 @@ RUN apt update && apt -y --no-install-recommends install \
     gnupg \
     libgeoip1 \
     libjpeg-dev \
+    libldap2-dev \
     libmagic-dev \
     libpq-dev \
     libreoffice \
+    libsasl2-dev \
+    libwebp-dev \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
-    libldap2-dev \
-    libsasl2-dev \
-    libwebp-dev \
     locales \
     nano \
     procps \
@@ -57,7 +57,7 @@ RUN apt update && apt -y --no-install-recommends install \
     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt update && \
-    apt -y install postgresql-client-11 && \
+    apt -y install postgresql-client-14 && \
     apt -y dist-upgrade && \
     rm -rf /var/lib/apt/lists/*
 
@@ -72,11 +72,12 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
 
 USER root
-RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    pip3 install --no-cache-dir /opt/odoo && \
-    pip3 install --no-cache-dir pdfkit phonenumbers pudb scipy wheel Unidecode && \
-    pip3 install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+    python3 -m pip install --no-cache-dir --upgrade wheel && \
+    python3 -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
+    python3 -m pip install --no-cache-dir /opt/odoo && \
+    python3 -m pip install --no-cache-dir escpos pdfkit phonenumbers pudb pyotp scipy Unidecode && \
+    python3 -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
