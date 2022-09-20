@@ -69,7 +69,7 @@ RUN groupadd -g ${ODOO_GID} odoo && \
     chown -R odoo:odoo /etc/odoo /opt
 
 USER odoo
-RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
+RUN git clone https://github.com/sergiocorato/OCB.git --depth 1 --branch 12.0 --single-branch /opt/odoo
 
 USER root
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
