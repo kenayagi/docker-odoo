@@ -50,11 +50,6 @@ RUN apt update && apt -y --no-install-recommends install \
     locales \
     nano \
     procps \
-    python3 \
-    python3-dev \
-    python3-magic \
-    python3-pip \
-    python3-setuptools \
     rsync \
     tdsodbc \
     telnet \
