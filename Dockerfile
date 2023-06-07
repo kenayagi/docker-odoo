@@ -1,4 +1,6 @@
-FROM debian:buster
+FROM debian:bullseye
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG ODOO_UID=3328
 ARG ODOO_GID=3328
@@ -10,6 +12,8 @@ ENV ODOO_CONF_FILE=${ODOO_HOMEDIR}/odoo.conf
 ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
+
+ENV PYTHON_VERSION=3.10.6
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
@@ -24,13 +28,21 @@ RUN apt update && apt -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
+    libbz2-dev \
+    libffi-dev \
+    libgdbm-dev \
     libgeoip1 \
     libjpeg-dev \
     libldap2-dev \
     libmagic-dev \
+    libncurses5-dev \
+    libnss3-dev \
     libpq-dev \
+    libreadline-dev \
     libreoffice \
     libsasl2-dev \
+    libsqlite3-dev \
+    libssl-dev \
     libwebp-dev \
     libxml2-dev \
     libxslt-dev \
@@ -51,10 +63,21 @@ RUN apt update && apt -y --no-install-recommends install \
     wget \
     xsltproc \
     zlib1g-dev && \
+    curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
+    cd /tmp/ && \
+    tar -xf /tmp/Python-${PYTHON_VERSION}.tgz && \
+    cd /tmp/Python-${PYTHON_VERSION} && \
+    ./configure --prefix=/usr/local && \
+    make -j4 && \
+    make altinstall && \
+    rm /tmp/Python-${PYTHON_VERSION}.tgz && \
+    rm -R /tmp/Python-${PYTHON_VERSION} && \
+    update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.10 1 && \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt -y install /tmp/wkhtmltopdf.deb && \
     rm /tmp/wkhtmltopdf.deb && \
-    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt update && \
     apt -y install postgresql-client-14 && \
@@ -76,7 +99,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir --upgrade wheel && \
     python3 -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
     python3 -m pip install --no-cache-dir /opt/odoo && \
-    python3 -m pip install --no-cache-dir escpos pdfkit phonenumbers pudb pyotp scipy Unidecode && \
+    python3 -m pip install --no-cache-dir escpos pdfkit pdfminer.six phonenumbers psycopg2-binary pudb pyotp scipy Unidecode && \
     python3 -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
