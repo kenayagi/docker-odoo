@@ -1,9 +1,7 @@
-name: CI/CD
+name: Build and push Docker image
 
 on:
   push:
-    tags:
-      - v14.*
 
 env:
   IMAGE_TAG: kenayagi/odoo:${{ github.ref_name }}
@@ -13,15 +11,15 @@ jobs:
     name: Docker build
     runs-on: ubuntu-latest
     steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server."
+      - run: echo "🔎 The name of your branch is ${{ github.ref_name }} and your repository is ${{ github.repository }}."
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Build Docker image
         run: docker build --no-cache --tag "${IMAGE_TAG}" .
-
       - name: Save Docker image
         run: docker save --output image.tar "${IMAGE_TAG}"
-
       - name: Upload Docker image
         uses: actions/upload-artifact@v2
         with:
