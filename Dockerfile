@@ -21,7 +21,9 @@ ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 
 ENV LANG=it_IT.UTF-8
 
-RUN apt update && apt -y --no-install-recommends install \
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
     bzip2 \
     ca-certificates \
@@ -71,19 +73,19 @@ RUN apt update && apt -y --no-install-recommends install \
     update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.10 1 && \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
-    apt -y install /tmp/wkhtmltopdf.deb && \
+    apt-get -y install /tmp/wkhtmltopdf.deb && \
     rm /tmp/wkhtmltopdf.deb && \
     sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-    apt update && \
-    apt -y install postgresql-client-14 && \
-    apt -y dist-upgrade && \
+    apt-get update && \
+    apt-get -y install postgresql-client-14 && \
+    apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
 
 RUN groupadd -g ${ODOO_GID} odoo && \
-    useradd -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
+    useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
     mkdir -p /etc/odoo && \
     chown -R odoo:odoo /etc/odoo /opt
 
