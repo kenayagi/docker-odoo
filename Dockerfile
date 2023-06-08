@@ -24,6 +24,7 @@ ENV LANG=it_IT.UTF-8
 RUN apt update && apt -y --no-install-recommends install \
     build-essential \
     bzip2 \
+    ca-certificates \
     curl \
     geoip-database \
     git \
@@ -62,7 +63,7 @@ RUN apt update && apt -y --no-install-recommends install \
     cd /tmp/ && \
     tar -xf /tmp/Python-${PYTHON_VERSION}.tgz && \
     cd /tmp/Python-${PYTHON_VERSION} && \
-    ./configure --prefix=/usr/local && \
+    ./configure --prefix=/usr/local --enable-shared && \
     make -j4 && \
     make altinstall && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
@@ -90,12 +91,12 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 14.0 --single-branch /opt/odoo
 
 USER root
-RUN python3 -m pip install --no-cache-dir --upgrade pip && \
-    python3 -m pip install --no-cache-dir --upgrade wheel && \
-    python3 -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    python3 -m pip install --no-cache-dir /opt/odoo && \
-    python3 -m pip install --no-cache-dir escpos pdfkit pdfminer.six phonenumbers psycopg2-binary pudb pyotp scipy Unidecode && \
-    python3 -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN python -m ensurepip --upgrade && \
+    python -m pip install --no-cache-dir --upgrade wheel && \
+    python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
+    python -m pip install --no-cache-dir /opt/odoo && \
+    python -m pip install --no-cache-dir escpos pdfkit pdfminer.six phonenumbers psycopg2-binary pudb pyotp python-magic scipy Unidecode && \
+    python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
