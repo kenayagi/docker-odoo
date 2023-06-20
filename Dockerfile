@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -51,6 +51,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libxslt-dev \
     libzip-dev \
     locales \
+    lsb-release \
     nano \
     procps \
     rsync \
@@ -65,9 +66,16 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     cd /tmp/ && \
     tar -xf /tmp/Python-${PYTHON_VERSION}.tgz && \
     cd /tmp/Python-${PYTHON_VERSION} && \
-    ./configure --prefix=/usr/local --enable-shared && \
+    ./configure \
+    --enable-optimizations \
+    --enable-option-checking=fatal \
+    --enable-shared \
+    --prefix=/usr/local \
+    --with-lto \
+    --with-system-expat && \
     make -j4 && \
     make altinstall && \
+    cd / &&
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
     rm -R /tmp/Python-${PYTHON_VERSION} && \
     update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
@@ -75,7 +83,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
     rm /tmp/wkhtmltopdf.deb && \
-    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
     apt-get -y install postgresql-client-14 && \
