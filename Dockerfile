@@ -75,7 +75,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     --with-system-expat && \
     make -j4 && \
     make altinstall && \
-    cd / &&
+    cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
     rm -R /tmp/Python-${PYTHON_VERSION} && \
     update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
