@@ -62,7 +62,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     wget \
     xsltproc \
     zlib1g-dev && \
-    curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
     cd /tmp/ && \
     tar -xf /tmp/Python-${PYTHON_VERSION}.tgz && \
     cd /tmp/Python-${PYTHON_VERSION} && \
@@ -71,19 +73,20 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     --enable-option-checking=fatal \
     --enable-shared \
     --prefix=/usr/local \
-    --with-lto \
-    --with-system-expat && \
+    --with-lto && \
     make -j4 && \
     make altinstall && \
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
     rm -R /tmp/Python-${PYTHON_VERSION} && \
     update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
-    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.10 1 && \
-    curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
+    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.10 1
+
+RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
-    rm /tmp/wkhtmltopdf.deb && \
-    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
+    rm /tmp/wkhtmltopdf.deb
+
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
     apt-get -y install postgresql-client-14 && \
