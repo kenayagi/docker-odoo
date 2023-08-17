@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -61,11 +61,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     vim \
     wget \
     xsltproc \
-    zlib1g-dev \
-    svglib \
-    pandas \
-    matplotlib \
-    openpyxl && \
+    zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
@@ -83,8 +79,8 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
     rm -R /tmp/Python-${PYTHON_VERSION} && \
-    update-alternatives --install /usr/bin/python python /usr/local/bin/python3.10 1 && \
-    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip3.10 1
+    update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
+    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
 RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
@@ -112,7 +108,21 @@ RUN python -m ensurepip --upgrade && \
     python -m pip install --no-cache-dir --upgrade wheel && \
     python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
     python -m pip install --no-cache-dir /opt/odoo && \
-    python -m pip install --no-cache-dir escpos pdfkit pdfminer.six phonenumbers psycopg2-binary pudb pyotp python-magic scipy Unidecode && \
+    python -m pip install --no-cache-dir \
+    escpos \
+    matplotlib \
+    openpyxl \
+    pandas \
+    pdfkit \
+    pdfminer.six \
+    phonenumbers \
+    psycopg2-binary \
+    pudb \
+    pyotp \
+    python-magic \
+    scipy \
+    svglib \
+    Unidecode && \
     python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
