@@ -61,7 +61,11 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     vim \
     wget \
     xsltproc \
-    zlib1g-dev && \
+    zlib1g-dev \
+    svglib \
+    pandas \
+    matplotlib \
+    openpyxl && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
