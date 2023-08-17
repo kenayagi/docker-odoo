@@ -82,9 +82,11 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
-RUN curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
+RUN apt-get update && \
+    curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
-    rm /tmp/wkhtmltopdf.deb
+    rm /tmp/wkhtmltopdf.deb && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
