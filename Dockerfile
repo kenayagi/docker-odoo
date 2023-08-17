@@ -61,11 +61,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     vim \
     wget \
     xsltproc \
-    zlib1g-dev \
-    svglib \
-    pandas \
-    matplotlib \
-    openpyxl && \
+    zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
@@ -112,7 +108,21 @@ RUN python -m ensurepip --upgrade && \
     python -m pip install --no-cache-dir --upgrade wheel && \
     python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
     python -m pip install --no-cache-dir /opt/odoo && \
-    python -m pip install --no-cache-dir escpos pdfkit pdfminer.six phonenumbers psycopg2-binary pudb pyotp python-magic scipy Unidecode && \
+    python -m pip install --no-cache-dir \
+    escpos \
+    matplotlib \
+    openpyxl \
+    pandas \
+    pdfkit \
+    pdfminer.six \
+    phonenumbers \
+    psycopg2-binary \
+    pudb \
+    pyotp \
+    python-magic \
+    scipy \
+    svglib \
+    Unidecode && \
     python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
