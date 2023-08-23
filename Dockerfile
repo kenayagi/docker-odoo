@@ -13,7 +13,7 @@ ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 
-ENV PYTHON_VERSION=3.7.3
+ENV PYTHON_VERSION=3.7.15
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
@@ -74,7 +74,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     --enable-shared \
     --prefix=/usr/local \
     --with-lto && \
-    make -j4 && \
+    make -j8 && \
     make altinstall && \
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
