@@ -123,6 +123,7 @@ RUN python -m ensurepip --upgrade && \
     pyotp \
     python-magic \
     scipy \
+    sqlalchemy==1.4.50 \
     svglib \
     Unidecode && \
     python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
