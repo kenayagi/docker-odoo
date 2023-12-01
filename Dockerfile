@@ -113,6 +113,7 @@ RUN python -m ensurepip --upgrade && \
     python -m pip install --no-cache-dir \
     escpos \
     matplotlib \
+    odfpy \
     openpyxl \
     pandas \
     pdfkit \
