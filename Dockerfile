@@ -121,6 +121,7 @@ RUN python -m ensurepip --upgrade && \
     phonenumbers \
     psycopg2-binary \
     pudb \
+    pyopenssl \
     pyotp \
     python-magic \
     scipy \
