@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   app:
-    image: kenayagi/odoo:14.0
+    image: kenayagi/odoo:16.0
     restart: always
     volumes:
       - odoodata:/var/lib/odoo
@@ -39,7 +39,7 @@ services:
       - "traefik.http.middlewares.odooid-compress.compress=true"
 
   db:
-    image: postgres:14.2
+    image: postgres:15
     # command: -c "synchronous_commit=off" -c "full_page_writes=off" -c "shared_buffers=512MB"
     stop_signal: SIGINT
     stop_grace_period: 3m

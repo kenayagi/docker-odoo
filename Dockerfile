@@ -13,7 +13,7 @@ ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 
-ENV PYTHON_VERSION=3.8.16
+ENV PYTHON_VERSION=3.9.20
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
@@ -83,7 +83,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
 RUN apt-get update && \
-    curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
+    curl -L https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bullseye_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
     rm /tmp/wkhtmltopdf.deb && \
     rm -rf /var/lib/apt/lists/*
@@ -91,7 +91,7 @@ RUN apt-get update && \
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
-    apt-get -y install postgresql-client-14 && \
+    apt-get -y install postgresql-client-15 && \
     apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
@@ -103,7 +103,7 @@ RUN groupadd -g ${ODOO_GID} odoo && \
     chown -R odoo:odoo /etc/odoo /opt
 
 USER odoo
-RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 14.0 --single-branch /opt/odoo
+RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
 
 USER root
 RUN python -m ensurepip --upgrade && \
