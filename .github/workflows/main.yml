@@ -17,6 +17,7 @@ jobs:
       - name: login to the docker hub
         uses: docker/login-action@v2
         with:
+          registry: ${{ vars.DOCKERREGISTRY_HOST }}
           username: ${{ vars.DOCKERREGISTRY_USERNAME }}
           password: ${{ secrets.DOCKERREGISTRY_PASSWORD }}
       - name: build and push docker image
