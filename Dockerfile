@@ -28,6 +28,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     bzip2 \
     ca-certificates \
     curl \
+    default-jre \
     geoip-database \
     git \
     gnupg \
@@ -43,6 +44,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libpq-dev \
     libreadline-dev \
     libreoffice \
+    libreoffice-java-common \
     libsasl2-dev \
     libsqlite3-dev \
     libssl-dev \
