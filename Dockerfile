@@ -118,6 +118,7 @@ RUN python -m ensurepip --upgrade && \
     pdfkit \
     pdfminer.six \
     phonenumbers \
+    Pillow==7.2.0 \
     psycopg2-binary \
     pudb \
     pyotp \
