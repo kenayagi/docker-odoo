@@ -118,9 +118,11 @@ RUN python -m ensurepip --upgrade && \
     odfpy \
     openpyxl \
     pandas \
+    pdf2image \
     pdfkit \
     pdfminer.six \
     phonenumbers \
+    poppler-utils \
     psycopg2-binary \
     pudb \
     pyopenssl \
