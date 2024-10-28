@@ -19,6 +19,11 @@ ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 
+ENV PGDATABASE=${ODOO_DB}
+ENV PGHOST=${POSTGRES_HOST}
+ENV PGPASSWORD=${POSTGRES_PASSWORD}
+ENV PGUSER=${POSTGRES_USER}
+
 ENV LANG=it_IT.UTF-8
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -55,6 +60,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     locales \
     lsb-release \
     nano \
+    pg-activity \
     procps \
     rsync \
     tdsodbc \
