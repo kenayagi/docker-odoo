@@ -13,7 +13,7 @@ ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 
-ENV PYTHON_VERSION=3.9.20
+ENV PYTHON_VERSION=3.9.21
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
@@ -110,11 +110,11 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-br
 
 USER root
 RUN python -m ensurepip --upgrade && \
+    python -m pip install --no-cache-dir --upgrade pip==25.0.1 && \
     python -m pip install --no-cache-dir --upgrade wheel && \
     python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
     python -m pip install --no-cache-dir /opt/odoo && \
     python -m pip install --no-cache-dir \
-    escpos \
     matplotlib \
     odfpy \
     openpyxl \
