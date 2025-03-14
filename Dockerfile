@@ -28,6 +28,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     bzip2 \
     ca-certificates \
     curl \
+    default-jre \
     geoip-database \
     git \
     gnupg \
@@ -43,6 +44,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libpq-dev \
     libreadline-dev \
     libreoffice \
+    libreoffice-java-common \
     libsasl2-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -53,6 +55,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     locales \
     lsb-release \
     nano \
+    pg-activity \
     procps \
     rsync \
     tdsodbc \
@@ -91,7 +94,7 @@ RUN apt-get update && \
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
-    apt-get -y install postgresql-client-15 && \
+    apt-get -y install postgresql-client-17 && \
     apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
@@ -116,9 +119,11 @@ RUN python -m ensurepip --upgrade && \
     odfpy \
     openpyxl \
     pandas \
+    pdf2image \
     pdfkit \
     pdfminer.six \
     phonenumbers \
+    poppler-utils \
     psycopg2-binary \
     pudb \
     pyopenssl \
