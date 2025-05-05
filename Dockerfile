@@ -32,9 +32,11 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     git \
     gnupg \
     libbz2-dev \
+    libcairo2-dev \
     libffi-dev \
     libgdbm-dev \
     libgeoip1 \
+    libgirepository1.0-dev \
     libjpeg-dev \
     libldap2-dev \
     libmagic-dev \
