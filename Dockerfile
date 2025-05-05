@@ -43,6 +43,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libgeoip1 \
     libjpeg-dev \
     libldap2-dev \
+    liblzma-dev \
     libmagic-dev \
     libncurses5-dev \
     libnss3-dev \
@@ -57,8 +58,10 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
+    libzstd-dev \
     locales \
     lsb-release \
+    lzma \
     nano \
     pg-activity \
     procps \
@@ -69,7 +72,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     vim \
     wget \
     xsltproc \
-    zlib1g-dev && \
+    zlib1g-dev \
+    zstd && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
