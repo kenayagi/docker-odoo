@@ -58,6 +58,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     lsb-release \
     lzma \
     nano \
+    openssh-client \
+    pkg-config \
     procps \
     rsync \
     tdsodbc \
