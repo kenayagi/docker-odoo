@@ -37,6 +37,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
+    lftp \
     libbz2-dev \
     libcairo2-dev \
     libffi-dev \
