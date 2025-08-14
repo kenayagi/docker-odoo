@@ -97,6 +97,8 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
+COPY --from=ghcr.io/astral-sh/uv@sha256:b05b3d61eb2b264ed785265b71155738a0d3d382ea0699e048d4b36f90b88788 /uv /uvx /bin/
+
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
@@ -121,11 +123,10 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 14.0 --single-branch /opt/odoo
 
 USER root
-RUN python -m ensurepip --upgrade && \
-    python -m pip install --no-cache-dir --upgrade wheel && \
-    python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    python -m pip install --no-cache-dir /opt/odoo && \
-    python -m pip install --no-cache-dir \
+RUN uv pip install --system --upgrade wheel && \
+    uv pip install --system -r /opt/odoo/requirements.txt && \
+    uv pip install --system /opt/odoo && \
+    uv pip install --system \
     escpos \
     matplotlib \
     odfpy \
@@ -145,7 +146,7 @@ RUN python -m ensurepip --upgrade && \
     sqlalchemy==1.3.24 \
     svglib \
     Unidecode && \
-    python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+    uv pip install --system git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
