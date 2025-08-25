@@ -89,7 +89,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     --enable-shared \
     --prefix=/usr/local \
     --with-lto && \
-    make -j4 && \
+    make -j$(nproc) && \
     make altinstall && \
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
