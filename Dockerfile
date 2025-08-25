@@ -13,7 +13,7 @@ ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
 
-ENV PYTHON_VERSION=3.9.21
+ENV PYTHON_VERSION=3.10.12
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
@@ -32,12 +32,16 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
+    lftp \
     libbz2-dev \
+    libcairo2-dev \
     libffi-dev \
     libgdbm-dev \
     libgeoip1 \
+    libgirepository1.0-dev \
     libjpeg-dev \
     libldap2-dev \
+    liblzma-dev \
     libmagic-dev \
     libncurses5-dev \
     libnss3-dev \
@@ -52,8 +56,10 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libxml2-dev \
     libxslt-dev \
     libzip-dev \
+    libzstd-dev \
     locales \
     lsb-release \
+    lzma \
     nano \
     pg-activity \
     procps \
@@ -64,7 +70,8 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     vim \
     wget \
     xsltproc \
-    zlib1g-dev && \
+    zlib1g-dev \
+    zstd && \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
@@ -77,13 +84,15 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     --enable-shared \
     --prefix=/usr/local \
     --with-lto && \
-    make -j4 && \
+    make -j$(nproc) && \
     make altinstall && \
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
     rm -R /tmp/Python-${PYTHON_VERSION} && \
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
+
+COPY --from=ghcr.io/astral-sh/uv@sha256:4de5495181a281bc744845b9579acf7b221d6791f99bcc211b9ec13f417c2853 /uv /uvx /bin/
 
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bullseye_amd64.deb -o /tmp/wkhtmltopdf.deb && \
@@ -109,12 +118,11 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
 
 USER root
-RUN python -m ensurepip --upgrade && \
-    python -m pip install --no-cache-dir --upgrade pip==25.0.1 && \
-    python -m pip install --no-cache-dir --upgrade wheel && \
-    python -m pip install --no-cache-dir -r /opt/odoo/requirements.txt && \
-    python -m pip install --no-cache-dir /opt/odoo && \
-    python -m pip install --no-cache-dir \
+RUN uv pip install --system --upgrade wheel && \
+    uv pip install --system -r /opt/odoo/requirements.txt && \
+    uv pip install --system /opt/odoo && \
+    uv pip install --system \
+    escpos \
     matplotlib \
     odfpy \
     openpyxl \
