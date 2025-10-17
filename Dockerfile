@@ -126,7 +126,7 @@ USER root
 RUN uv pip install --system --upgrade wheel && \
     uv pip install --system -r /opt/odoo/requirements.txt && \
     uv pip install --system /opt/odoo && \
-    uv pip install --system --upgrade \
+    uv pip install --system \
     escpos \
     matplotlib \
     odfpy \
@@ -146,7 +146,7 @@ RUN uv pip install --system --upgrade wheel && \
     scipy \
     sqlalchemy==1.3.24 \
     svglib \
-    xlsxwriter \
+    xlsxwriter==3.2.9 \
     Unidecode && \
     uv pip install --system git+https://github.com/OCA/openupgradelib.git@master
 
