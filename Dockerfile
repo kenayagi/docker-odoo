@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:trixie
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -92,7 +92,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
-COPY --from=ghcr.io/astral-sh/uv@sha256:4de5495181a281bc744845b9579acf7b221d6791f99bcc211b9ec13f417c2853 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.9.1-python3.10-trixie /usr/local/bin/uv /usr/local/bin/uvx /bin/
 
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bullseye_amd64.deb -o /tmp/wkhtmltopdf.deb && \
@@ -115,7 +115,7 @@ RUN groupadd -g ${ODOO_GID} odoo && \
     chown -R odoo:odoo /etc/odoo /opt
 
 USER odoo
-RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
+RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 18.0 --single-branch /opt/odoo
 
 USER root
 RUN uv pip install --system --upgrade wheel && \
