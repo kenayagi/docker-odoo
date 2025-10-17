@@ -141,6 +141,7 @@ RUN uv pip install --system --upgrade wheel && \
     pudb \
     pyopenssl \
     pyotp \
+    pytesseract \
     python-magic \
     scipy \
     sqlalchemy==1.3.24 \
