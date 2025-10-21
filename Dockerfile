@@ -67,10 +67,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     lzma \
     nano \
     pg-activity \
+    poppler-utils \
     procps \
     rsync \
     tdsodbc \
     telnet \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-ita \
     unzip \
     vim \
     wget \
@@ -132,16 +136,15 @@ RUN uv pip install --system --upgrade wheel && \
     odfpy \
     openpyxl \
     pandas \
-    pdf2image \
+    pdf2image==1.17.0 \
     pdfkit \
     pdfminer.six \
     phonenumbers \
-    poppler-utils \
     psycopg2-binary \
     pudb \
     pyopenssl \
     pyotp \
-    pytesseract \
+    pytesseract==0.3.13 \
     python-magic \
     scipy \
     sqlalchemy==1.3.24 \
