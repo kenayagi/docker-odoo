@@ -139,15 +139,15 @@ RUN uv pip install --system \
     decorator==4.4.2 \
     defusedxml==0.7.1 \
     docopt==0.6.2 \
-    docutils==0.16 \
+    docutils==0.18.1 \
     ebaysdk==2.1.5 \
     freezegun==0.3.15 \
-    gevent==25.9.1 \
-    greenlet==3.2.4 \
+    gevent==22.10.2 \
+    greenlet==2.0.2 \
     idna==2.10 \
     isodate==0.7.2 \
     libsass==0.20.1 \
-    lxml==4.6.5 \
+    lxml==4.9.3 \
     num2words==0.5.9 \
     ofxparse==0.21 \
     packaging==25.0 \
