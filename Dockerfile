@@ -148,6 +148,7 @@ RUN uv pip install --system \
     isodate==0.7.2 \
     libsass==0.20.1 \
     lxml==4.9.3 \
+    lxml-html-clean==0.4.3 \
     num2words==0.5.9 \
     ofxparse==0.21 \
     packaging==25.0 \
