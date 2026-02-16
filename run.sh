@@ -7,7 +7,7 @@ fi
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv pip install --system --prerelease --upgrade -r $ODOO_REQ_FILE
+    uv pip install --system --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
     uv pip freeze --all | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
     mv $ODOO_REQ_FILE $ODOO_HOMEDIR/log_setup/$NOW.requirements.txt
@@ -22,4 +22,4 @@ if [ -f "$ODOO_UPD_FILE" ]; then
 fi
 
 /usr/local/bin/odoo --data-dir=$ODOO_HOMEDIR/data_dir --config=$ODOO_CONF_FILE --database=$ODOO_DB --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD \
---geoip-db=/usr/share/GeoIP/GeoIP.dat --without-demo=ALL
+--geoip-db=/usr/share/GeoIP/GeoIP.dat --without-demo=ALL --proxy-mode --x-sendfile --no-database-list
