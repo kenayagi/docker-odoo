@@ -7,7 +7,7 @@ cbor2==5.6.2
 certifi==2023.11.17
 chardet==5.2.0
 charset-normalizer==3.3.2
-cryptography==41.0.7
+cryptography==46.0.5
 decorator==5.1.1
 defusedxml==0.7.1
 docopt==0.6.2
