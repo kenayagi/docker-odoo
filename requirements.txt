@@ -55,7 +55,7 @@ PyPDF2==2.12.1
 pyserial==3.5
 pysftp==0.2.9
 python-dateutil==2.8.2
-python-ldap==3.4.4
+python-ldap==3.4.5
 python-magic==0.4.27
 python-slugify==8.0.4
 python-stdnum==1.19
