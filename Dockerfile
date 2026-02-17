@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:jammy-20260109
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -92,7 +92,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
-COPY --from=ghcr.io/astral-sh/uv:0.9.30 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /uvx /bin/
 
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb -o /tmp/wkhtmltopdf.deb && \
@@ -119,10 +119,9 @@ RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-br
 
 USER root
 COPY requirements.txt /opt/requirements.txt
-RUN uv pip install --system --upgrade wheel && \
-    uv pip install --system /opt/odoo && \
-    uv pip install --system -r /opt/requirements.txt && \
-    python -m pip install --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN uv pip install --system /opt/odoo
+RUN uv pip install --system -r /opt/requirements.txt
+RUN uv pip install --system --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
