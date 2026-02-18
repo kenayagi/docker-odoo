@@ -97,10 +97,8 @@ USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
 
 RUN uv venv ${ODOO_VENV}
-COPY requirements.txt /opt/venv/requirements.txt
 ENV PATH="$ODOO_VENV/bin:$PATH"
 RUN uv pip install --prefix=${ODOO_VENV} --link-mode=copy --no-build-isolation setuptools==59.8.0 wheel==0.42.0
-RUN uv pip install --prefix=${ODOO_VENV} --link-mode=copy --no-build-isolation -r /opt/venv/requirements.txt
 RUN uv pip install --prefix=${ODOO_VENV} --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
 RUN uv pip install --prefix=${ODOO_VENV} --prerelease=allow --link-mode=copy --no-build-isolation /opt/odoo
 
