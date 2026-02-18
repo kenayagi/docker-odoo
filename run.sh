@@ -10,12 +10,16 @@ fi
 
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
+if [ ! -f "$ODOO_VENV" ]; then
+  uv venv --system-site-packages $ODOO_VENV
+fi
+
 source $ODOO_VENV/bin/activate
 
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv pip install --prefix=$ODOO_VENV --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
+    uv pip install --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
-    uv pip freeze --prefix=$ODOO_VENV | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
+    uv pip freeze | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
     mv $ODOO_REQ_FILE $ODOO_HOMEDIR/log_setup/$NOW.requirements.txt
 fi
 

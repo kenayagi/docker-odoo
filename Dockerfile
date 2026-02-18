@@ -93,14 +93,10 @@ RUN groupadd -g ${ODOO_GID} odoo && \
 COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /uvx /bin/
 RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.10.12
 
-USER odoo
-RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
-
-RUN uv venv ${ODOO_VENV}
-ENV PATH="$ODOO_VENV/bin:$PATH"
-RUN uv pip install --prefix=${ODOO_VENV} --link-mode=copy --no-build-isolation setuptools==59.8.0 wheel==0.42.0
-RUN uv pip install --prefix=${ODOO_VENV} --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
-RUN uv pip install --prefix=${ODOO_VENV} --prerelease=allow --link-mode=copy --no-build-isolation /opt/odoo
+USER root
+RUN uv pip install --system --break-system-packages --link-mode=copy --no-build-isolation setuptools==59.8.0 wheel==0.42.0
+RUN uv pip install --system --break-system-packages --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
+RUN uv pip install --system --break-system-packages --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@16.0
 
 WORKDIR ${ODOO_HOMEDIR}
 EXPOSE 8069 8071 8072
