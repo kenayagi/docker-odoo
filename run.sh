@@ -10,6 +10,8 @@ fi
 
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
+source /opt/venv/bin/activate
+
 if [ -f "$ODOO_REQ_FILE" ]; then
     uv pip install --prefix=$ODOO_VENV --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
