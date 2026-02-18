@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+export NOW=`date +%y%m%d_%H%M%S`
+
 if [ ! -f "$ODOO_CONF_FILE" ]; then
     echo -en "[options]\nproxy_mode = True\naddons_path = /opt/odoo/addons\nadmin_passwd = Db4dm1nSup3rS3cr3tP4ssw0rD" > $ODOO_CONF_FILE
 fi
@@ -7,9 +11,9 @@ fi
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv pip install --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
+    uv pip install --prefix=$ODOO_VENV --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
-    uv pip freeze --all | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
+    uv pip freeze --prefix=$ODOO_VENV | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
     mv $ODOO_REQ_FILE $ODOO_HOMEDIR/log_setup/$NOW.requirements.txt
 fi
 
