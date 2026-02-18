@@ -117,13 +117,13 @@ RUN groupadd -g ${ODOO_GID} odoo && \
 USER odoo
 RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 16.0 --single-branch /opt/odoo
 
-USER root
-COPY requirements.txt /opt/requirements.txt
-RUN uv pip install --system /opt/odoo
-RUN uv pip install --system -r /opt/requirements.txt
-RUN uv pip install --system --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN uv venv /opt/venv
+COPY requirements.txt /opt/venv/requirements.txt
+RUN source /opt/venv/bin/activate
+RUN uv pip install --link-mode=copy --no-build-isolation -r /opt/venv/requirements.txt
+RUN uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
+RUN uv pip install --prerelease=allow --link-mode=copy --no-build-isolation /opt/odoo
 
-USER odoo
 WORKDIR ${ODOO_HOMEDIR}
 EXPOSE 8069 8071 8072
 VOLUME ${ODOO_HOMEDIR}
