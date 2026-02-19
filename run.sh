@@ -50,9 +50,9 @@ if [ -f "$ODOO_UPD_FILE" ]; then
     --db_user=$POSTGRES_USER \
     --i18n-overwrite \
     --load-language=it_IT \
-    --stop-after-init
+    --stop-after-init \
     --update=$(< $ODOO_UPD_FILE) \
-    --workers=0 \
+    --workers=0
     rm $ODOO_UPD_FILE
 fi
 
@@ -64,7 +64,7 @@ $ODOO_VENV/bin/odoo \
 --db_password=$POSTGRES_PASSWORD \
 --db_user=$POSTGRES_USER \
 --geoip-db=/usr/share/GeoIP/GeoIP.dat \
---no-database-list
+--no-database-list \
 --proxy-mode \
 --without-demo=ALL \
---x-sendfile \
+--x-sendfile
