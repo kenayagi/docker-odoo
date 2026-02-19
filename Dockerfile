@@ -1,25 +1,23 @@
 FROM ubuntu:noble-20260113
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=it_IT.UTF-8
 
-ARG ODOO_UID=3328
 ARG ODOO_GID=3328
 ARG ODOO_HOMEDIR=/var/lib/odoo
-ENV ODOO_HOMEDIR=${ODOO_HOMEDIR}
-
-ENV ODOO_DB=odoodb
-ENV ODOO_CONF_FILE=${ODOO_HOMEDIR}/odoo.conf
-ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
-ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
+ARG ODOO_UID=3328
 ENV ODOO_ADMIN_PASSWD=Db4dm1nSup3rS3cr3tP4ssw0rD
-
-ENV PYTHON_VERSION=3.12.12
+ENV ODOO_CONF_FILE=${ODOO_HOMEDIR}/odoo.conf
+ENV ODOO_DB=odoodb
+ENV ODOO_HOMEDIR=${ODOO_HOMEDIR}
+ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
+ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
+ENV ODOO_VENV=${ODOO_HOMEDIR}/venv
+ENV ODOO_BIN=${ODOO_VENV}/bin/odoo
 
 ENV POSTGRES_HOST=db
-ENV POSTGRES_USER=odoo
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
-
-ENV LANG=it_IT.UTF-8
+ENV POSTGRES_USER=odoo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -74,26 +72,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     zstd && \
     rm -rf /var/lib/apt/lists/*
 
-RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz -o /tmp/Python-${PYTHON_VERSION}.tgz && \
-    cd /tmp/ && \
-    tar -xf /tmp/Python-${PYTHON_VERSION}.tgz && \
-    cd /tmp/Python-${PYTHON_VERSION} && \
-    ./configure \
-    --enable-optimizations \
-    --enable-option-checking=fatal \
-    --enable-shared \
-    --prefix=/usr/local \
-    --with-lto && \
-    make -j$(nproc) && \
-    make altinstall && \
-    cd / && \
-    rm /tmp/Python-${PYTHON_VERSION}.tgz && \
-    rm -R /tmp/Python-${PYTHON_VERSION} && \
-    update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
-    update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
-
-COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /uvx /bin/
-
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
@@ -104,24 +82,17 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
     apt-get -y install postgresql-client-16 && \
-    apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
 
 RUN groupadd -g ${ODOO_GID} odoo && \
-    useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
-    mkdir -p /etc/odoo && \
-    chown -R odoo:odoo /etc/odoo /opt
+    useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
 
-USER odoo
-RUN git clone https://github.com/OCA/OCB.git --depth 1 --branch 18.0 --single-branch /opt/odoo
+COPY --from=ghcr.io/astral-sh/uv:0.10.4 /uv /uvx /bin/
+RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.12
 
-USER root
-COPY requirements.txt /opt/requirements.txt
-RUN uv pip install --system /opt/odoo
-RUN uv pip install --system -r /opt/requirements.txt
-RUN uv pip install --system --no-cache-dir git+https://github.com/OCA/openupgradelib.git@master
+RUN ln -s ${ODOO_BIN} /usr/local/bin/odoo
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}
