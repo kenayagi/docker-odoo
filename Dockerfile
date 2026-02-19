@@ -86,18 +86,12 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)
 RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
 
 RUN groupadd -g ${ODOO_GID} odoo && \
-    useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo && \
-    mkdir -p /etc/odoo && \
-    chown -R odoo:odoo /etc/odoo /opt
+    useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
 
 COPY --from=ghcr.io/astral-sh/uv:0.10.2 /uv /uvx /bin/
 RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.10.12
 
-USER root
-RUN uv pip install --system --break-system-packages --link-mode=copy --no-build-isolation setuptools==59.8.0 wheel==0.42.0
-RUN uv pip install --system --break-system-packages --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
-RUN uv pip install --system --break-system-packages --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@16.0
-
+USER odoo
 WORKDIR ${ODOO_HOMEDIR}
 EXPOSE 8069 8071 8072
 VOLUME ${ODOO_HOMEDIR}
