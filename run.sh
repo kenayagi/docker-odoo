@@ -5,7 +5,7 @@ set -e
 export NOW=`date +%y%m%d_%H%M%S`
 
 if [ ! -f "$ODOO_CONF_FILE" ]; then
-    echo -en "[options]\nproxy_mode = True\naddons_path = /opt/odoo/addons\nadmin_passwd = Db4dm1nSup3rS3cr3tP4ssw0rD" > $ODOO_CONF_FILE
+    echo -en "[options]\nadmin_passwd = Db4dm1nSup3rS3cr3tP4ssw0rD" > $ODOO_CONF_FILE
 fi
 
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
@@ -65,6 +65,4 @@ $ODOO_VENV/bin/odoo \
 --db_user=$POSTGRES_USER \
 --geoip-db=/usr/share/GeoIP/GeoIP.dat \
 --no-database-list \
---proxy-mode \
---without-demo=ALL \
---x-sendfile
+--without-demo=ALL
