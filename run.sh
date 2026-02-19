@@ -10,8 +10,25 @@ fi
 
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
-if [ ! -f "$ODOO_VENV" ]; then
-  uv venv --system-site-packages $ODOO_VENV
+# Check if venv exists
+if [ ! -d "$ODOO_VENV" ]; then
+    echo "Creating virtual environment..."
+    uv venv "$ODOO_VENV"
+    
+    source $ODOO_VENV/bin/activate
+
+    echo "Installing base packages..."
+    uv pip install --link-mode=copy --no-build-isolation setuptools==59.8.0 wheel==0.42.0
+
+    echo "Installing OCB..."
+    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@16.0
+
+    echo "Installing openupgradelib..."
+    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
+
+    echo "Virtual environment created and packages installed."
+else
+    echo "Virtual environment already exists at $ODOO_VENV"
 fi
 
 source $ODOO_VENV/bin/activate
@@ -19,17 +36,35 @@ source $ODOO_VENV/bin/activate
 if [ -f "$ODOO_REQ_FILE" ]; then
     uv pip install --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
-    uv pip freeze | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_installed.txt
-    mv $ODOO_REQ_FILE $ODOO_HOMEDIR/log_setup/$NOW.requirements.txt
+    uv pip freeze | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_freeze.txt
+    rm $ODOO_REQ_FILE
 fi
 
 if [ -f "$ODOO_UPD_FILE" ]; then
-    $ODOO_VENV/bin/odoo --data-dir=$ODOO_HOMEDIR/data_dir --config=$ODOO_CONF_FILE --database=$ODOO_DB --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD \
-    --update=$(< $ODOO_UPD_FILE) --load-language=it_IT --i18n-overwrite --workers=0 --stop-after-init
-    mkdir -p $ODOO_HOMEDIR/log_setup
-    echo "Modules updated on $NOW: $(< $ODOO_UPD_FILE)" >> $ODOO_HOMEDIR/log_setup/updates.log
+    $ODOO_VENV/bin/odoo \
+    --config=$ODOO_CONF_FILE \
+    --data-dir=$ODOO_HOMEDIR/data_dir \
+    --database=$ODOO_DB \
+    --db_host=$POSTGRES_HOST \
+    --db_password=$POSTGRES_PASSWORD \
+    --db_user=$POSTGRES_USER \
+    --i18n-overwrite \
+    --load-language=it_IT \
+    --stop-after-init
+    --update=$(< $ODOO_UPD_FILE) \
+    --workers=0 \
     rm $ODOO_UPD_FILE
 fi
 
-$ODOO_VENV/bin/odoo --data-dir=$ODOO_HOMEDIR/data_dir --config=$ODOO_CONF_FILE --database=$ODOO_DB --db_host=$POSTGRES_HOST --db_user=$POSTGRES_USER --db_password=$POSTGRES_PASSWORD \
---geoip-db=/usr/share/GeoIP/GeoIP.dat --without-demo=ALL --proxy-mode --x-sendfile --no-database-list
+$ODOO_VENV/bin/odoo \
+--config=$ODOO_CONF_FILE \
+--data-dir=$ODOO_HOMEDIR/data_dir \
+--database=$ODOO_DB \
+--db_host=$POSTGRES_HOST \
+--db_password=$POSTGRES_PASSWORD \
+--db_user=$POSTGRES_USER \
+--geoip-db=/usr/share/GeoIP/GeoIP.dat \
+--no-database-list
+--proxy-mode \
+--without-demo=ALL \
+--x-sendfile \
