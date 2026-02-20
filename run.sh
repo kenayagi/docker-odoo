@@ -34,7 +34,7 @@ fi
 source $ODOO_VENV/bin/activate
 
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv pip install --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
+    uv pip install --verbose --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
     uv pip freeze | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_freeze.txt
     rm $ODOO_REQ_FILE
