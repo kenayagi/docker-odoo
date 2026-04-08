@@ -64,5 +64,4 @@ $ODOO_VENV/bin/odoo \
 --db_password=$POSTGRES_PASSWORD \
 --db_user=$POSTGRES_USER \
 --geoip-db=/usr/share/GeoIP/GeoIP.dat \
---no-database-list \
 --without-demo=ALL
