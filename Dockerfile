@@ -89,8 +89,8 @@ RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
 RUN groupadd -g ${ODOO_GID} odoo && \
     useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
 
-COPY --from=ghcr.io/astral-sh/uv:0.10.4 /uv /uvx /bin/
-RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.12
+COPY --from=ghcr.io/astral-sh/uv:0.11.7 /uv /uvx /bin/
+RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.13
 
 RUN ln -s ${ODOO_BIN} /usr/local/bin/odoo
 
