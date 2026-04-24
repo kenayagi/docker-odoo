@@ -19,6 +19,11 @@ ENV POSTGRES_HOST=db
 ENV POSTGRES_USER=odoo
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 
+ENV PGDATABASE=${ODOO_DB}
+ENV export PGHOST=${POSTGRES_HOST}
+ENV PGPASSWORD=${POSTGRES_PASSWORD}
+ENV PGUSER=${POSTGRES_USER}
+
 ENV LANG=it_IT.UTF-8
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -82,7 +87,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     --enable-shared \
     --prefix=/usr/local \
     --with-lto && \
-    make -j8 && \
+    make -j$(nproc) && \
     make altinstall && \
     cd / && \
     rm /tmp/Python-${PYTHON_VERSION}.tgz && \
