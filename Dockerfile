@@ -81,7 +81,7 @@ RUN apt-get update && \
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
-    apt-get -y install postgresql-client-16 && \
+    apt-get -y install postgresql-client-18 && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
