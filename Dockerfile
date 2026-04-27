@@ -131,6 +131,7 @@ RUN uv pip install --system --upgrade wheel && \
     uv pip install --system -r /opt/odoo/requirements.txt && \
     uv pip install --system /opt/odoo && \
     uv pip install --system \
+    cryptography==41.0.7 \
     escpos \
     matplotlib \
     odfpy \
@@ -142,15 +143,16 @@ RUN uv pip install --system --upgrade wheel && \
     phonenumbers \
     psycopg2-binary \
     pudb \
-    pyopenssl \
+    pyopenssl==23.2.0 \
     pyotp \
     pytesseract==0.3.13 \
     python-magic \
     scipy \
     sqlalchemy==1.3.24 \
     svglib \
+    Unidecode \
     xlsxwriter==3.2.9 \
-    Unidecode && \
+    && \
     uv pip install --system git+https://github.com/OCA/openupgradelib.git@master
 
 USER odoo
