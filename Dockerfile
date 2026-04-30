@@ -105,7 +105,6 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
     apt-get -y install postgresql-client-18 && \
-    apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
