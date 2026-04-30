@@ -1,4 +1,4 @@
-FROM debian:bullseye-20250610
+FROM debian:bullseye-20260421
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -36,6 +36,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     geoip-database \
     git \
     gnupg \
+    gsfonts \
     libbz2-dev \
     libcairo2-dev \
     libffi-dev \
@@ -130,6 +131,7 @@ RUN python -m ensurepip --upgrade && \
     pdfkit \
     pdfminer.six \
     phonenumbers \
+    reportlab==3.5.68 \
     Pillow==7.2.0 \
     psycopg2-binary \
     pudb \
