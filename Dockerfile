@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20260113
+FROM ubuntu:noble-20260509.1
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=it_IT.UTF-8
@@ -21,7 +21,9 @@ ENV POSTGRES_USER=odoo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-RUN apt-get update && apt-get -y --no-install-recommends install \
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
     bzip2 \
     ca-certificates \
