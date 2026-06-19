@@ -19,6 +19,8 @@ ENV POSTGRES_HOST=db
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 ENV POSTGRES_USER=odoo
 
+ENV UV_PROJECT_ENVIRONMENT=${ODOO_VENV}
+
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
