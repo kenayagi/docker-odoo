@@ -21,9 +21,7 @@ ENV POSTGRES_USER=odoo
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-export DEBIAN_FRONTEND=noninteractive
-
-apt-get update && apt-get -y --no-install-recommends install \
+RUN apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
     bzip2 \
     ca-certificates \
