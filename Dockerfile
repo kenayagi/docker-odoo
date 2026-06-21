@@ -12,7 +12,7 @@ ENV ODOO_DB=odoodb
 ENV ODOO_HOMEDIR=${ODOO_HOMEDIR}
 ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
-ENV ODOO_VENV=${ODOO_HOMEDIR}/venv
+ENV ODOO_VENV=${ODOO_HOMEDIR}/.venv
 ENV ODOO_BIN=${ODOO_VENV}/bin/odoo
 
 ENV POSTGRES_HOST=db
@@ -92,7 +92,9 @@ RUN groupadd -g ${ODOO_GID} odoo && \
 COPY --from=ghcr.io/astral-sh/uv:0.11.22 /uv /uvx /bin/
 RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.13
 
-RUN ln -s ${ODOO_BIN} /usr/local/bin/odoo
+RUN ln -s /bin/uv /usr/local/bin/odoo-uv-run && \
+    echo '#!/bin/bash\nuv run odoo "$@"' > /usr/local/bin/odoo && \
+    chmod +x /usr/local/bin/odoo
 
 USER odoo
 WORKDIR ${ODOO_HOMEDIR}

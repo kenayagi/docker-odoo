@@ -10,38 +10,48 @@ fi
 
 sed -i "/^admin_passwd/c\admin_passwd = $ODOO_ADMIN_PASSWD" $ODOO_CONF_FILE
 
+# Check if pyproject.toml exists
+if [ ! -f "pyproject.toml" ]; then
+    echo "Initializing uv project in $ODOO_HOMEDIR..."
+    uv init --no-package --name docker-odoo --python 3.12
+fi
+
 # Check if venv exists
 if [ ! -d "$ODOO_VENV" ]; then
-    echo "Creating virtual environment..."
+    echo "Creating virtual environment at $ODOO_VENV..."
     uv venv "$ODOO_VENV"
 
-    source $ODOO_VENV/bin/activate
-
     echo "Installing base packages..."
-    uv pip install --link-mode=copy --no-build-isolation setuptools==68.1.2 wheel==0.42.0
+    uv add --verbose --link-mode=copy --active setuptools==68.1.2 wheel==0.42.0
 
     echo "Installing OCB..."
-    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@18.0
+    git clone --depth 1 --branch 18.0 https://github.com/OCA/OCB.git odoo18
+    # Remove pyproject.toml from OCB if it exists to avoid uv validation errors
+    if [ -f "odoo18/pyproject.toml" ]; then
+        rm odoo18/pyproject.toml
+    fi
+    if [ -f "odoo18/requirements.txt" ]; then
+        uv add --verbose --prerelease=allow --link-mode=copy --active -r odoo18/requirements.txt
+    fi
+    uv add --verbose --prerelease=allow --link-mode=copy --active --no-workspace ./odoo18
 
     echo "Installing openupgradelib..."
-    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
+    uv add --verbose --prerelease=allow --link-mode=copy --active git+https://github.com/OCA/openupgradelib.git@master
 
-    echo "Virtual environment created and packages installed."
+    echo "Project initialized and packages installed."
 else
     echo "Virtual environment already exists at $ODOO_VENV"
 fi
 
-source $ODOO_VENV/bin/activate
-
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv pip install --verbose --link-mode=copy --prerelease=allow --index-strategy unsafe-best-match --no-build-isolation --upgrade -r $ODOO_REQ_FILE
+    uv add --verbose --prerelease=allow --link-mode=copy --active -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
-    uv pip freeze | sort > $ODOO_HOMEDIR/log_setup/$NOW.requirements_freeze.txt
+    uv export --no-hashes --format requirements-txt > $ODOO_HOMEDIR/log_setup/$NOW.requirements_freeze.txt
     rm $ODOO_REQ_FILE
 fi
 
 if [ -f "$ODOO_UPD_FILE" ]; then
-    $ODOO_VENV/bin/odoo \
+    uv run odoo \
     --config=$ODOO_CONF_FILE \
     --data-dir=$ODOO_HOMEDIR/data_dir \
     --database=$ODOO_DB \
@@ -56,7 +66,7 @@ if [ -f "$ODOO_UPD_FILE" ]; then
     rm $ODOO_UPD_FILE
 fi
 
-$ODOO_VENV/bin/odoo \
+uv run odoo \
 --config=$ODOO_CONF_FILE \
 --data-dir=$ODOO_HOMEDIR/data_dir \
 --database=$ODOO_DB \
