@@ -44,7 +44,7 @@ else
 fi
 
 if [ -f "$ODOO_REQ_FILE" ]; then
-    uv add --verbose --upgrade --prerelease=allow --index-strategy unsafe-best-match --link-mode=copy --active -r $ODOO_REQ_FILE
+    uv add --verbose --prerelease=allow --link-mode=copy --active -r $ODOO_REQ_FILE
     mkdir -p $ODOO_HOMEDIR/log_setup
     uv export --no-hashes --format requirements-txt > $ODOO_HOMEDIR/log_setup/$NOW.requirements_freeze.txt
     rm $ODOO_REQ_FILE
