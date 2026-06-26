@@ -21,7 +21,7 @@ if [ ! -d "$ODOO_VENV" ]; then
     uv pip install --link-mode=copy --no-build-isolation setuptools==68.1.2 wheel==0.42.0
 
     echo "Installing OCB..."
-    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@18.0
+    uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/OCB.git@$ODOO_COMMIT
 
     echo "Installing openupgradelib..."
     uv pip install --prerelease=allow --link-mode=copy --no-build-isolation git+https://github.com/OCA/openupgradelib.git@master
