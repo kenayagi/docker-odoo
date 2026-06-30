@@ -14,12 +14,15 @@ ENV ODOO_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_VENV=${ODOO_HOMEDIR}/venv
 ENV ODOO_VERSION=18.0
-ENV ODOO_COMMIT=b5e8e310e1a88da16baa8dc98568d527d232aca1
+ENV ODOO_COMMIT=9b0a7c9009a5f0aedadec6f7520a0f51510690d2
 ENV ODOO_BIN=${ODOO_VENV}/bin/odoo
 
 ENV POSTGRES_HOST=db
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 ENV POSTGRES_USER=odoo
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD curl -f http://localhost:8069/web/health || exit 1
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
