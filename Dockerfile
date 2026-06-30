@@ -104,5 +104,7 @@ WORKDIR ${ODOO_HOMEDIR}
 EXPOSE 8069 8071 8072
 VOLUME ${ODOO_HOMEDIR}
 
-COPY run.sh /run.sh
+COPY --chmod=755 run.sh /run.sh
+COPY --chmod=755 lib/ /lib/
+ENTRYPOINT ["/run.sh"]
 CMD /bin/bash /run.sh
