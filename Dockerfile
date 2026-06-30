@@ -21,9 +21,6 @@ ENV POSTGRES_HOST=db
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 ENV POSTGRES_USER=odoo
 
-HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD curl -f http://localhost:8069/web/health || exit 1
-
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
