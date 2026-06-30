@@ -16,11 +16,11 @@ else
 fi
 
 # Pipeline
-"$LIB_DIR/install_venv.sh"
-"$LIB_DIR/install_explicit_deps.sh"
-"$LIB_DIR/update_deps.sh"
-"$LIB_DIR/wait_db.sh"
-"$LIB_DIR/update_odoo.sh"
+"$SCRIPT_DIR/install_venv.sh"
+"$SCRIPT_DIR/install_explicit_deps.sh"
+"$SCRIPT_DIR/update_deps.sh"
+"$SCRIPT_DIR/wait_db.sh"
+"$SCRIPT_DIR/update_odoo.sh"
 
 # Start
 source "$ODOO_VENV/bin/activate"
