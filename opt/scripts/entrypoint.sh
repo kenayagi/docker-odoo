@@ -1,8 +1,8 @@
 #!/bin/bash
 set -Eeuo pipefail
 
-LIB_DIR="$(dirname "$0")/lib"
-source "$LIB_DIR/common.sh"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
 require_env
 
 # Cleanup update files in case of error

@@ -1,7 +1,10 @@
 #!/bin/bash
 set -Eeuo pipefail
-source "$(dirname "$0")/common.sh"
+
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
 require_env
+
 : "${ODOO_UPD_FILE:?}"
 
 if [ ! -f "$ODOO_UPD_FILE" ]; then

@@ -1,6 +1,8 @@
 #!/bin/bash
 set -Eeuo pipefail
-source "$(dirname "$0")/common.sh"
+
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
 require_env
 
 if [ -d "$ODOO_VENV" ]; then
