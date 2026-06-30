@@ -30,7 +30,6 @@ build_odoo_common_args() {
 # Wrapper uv pip install standard
 uv_install() {
     uv pip install \
-        --verbose \
         --prerelease=allow \
         --link-mode=hardlink \
         --no-build-isolation \
