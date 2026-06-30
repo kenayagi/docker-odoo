@@ -17,6 +17,7 @@ fi
 
 # Pipeline
 "$LIB_DIR/install_venv.sh"
+"$LIB_DIR/install_explicit_deps.sh"
 "$LIB_DIR/update_deps.sh"
 "$LIB_DIR/wait_db.sh"
 "$LIB_DIR/update_odoo.sh"
