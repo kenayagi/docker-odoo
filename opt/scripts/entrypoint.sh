@@ -16,7 +16,7 @@ else
 fi
 
 # Pipeline
-"$SCRIPT_DIR/install_venv.sh"
+"$SCRIPT_DIR/create_venv.sh"
 "$SCRIPT_DIR/install_explicit_deps.sh"
 "$SCRIPT_DIR/install_odoo.sh"
 "$SCRIPT_DIR/update_deps.sh"
