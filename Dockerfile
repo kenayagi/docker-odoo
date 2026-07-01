@@ -104,4 +104,4 @@ VOLUME ${ODOO_HOMEDIR}
 ENV ODOO_SCRIPTS_DIR=/opt/scripts
 COPY --chmod=755 opt/scripts/ ${ODOO_SCRIPTS_DIR}/
 
-ENTRYPOINT ["/opt/scripts/entrypoint.sh"]
+CMD /bin/bash /opt/scripts/entrypoint.sh
