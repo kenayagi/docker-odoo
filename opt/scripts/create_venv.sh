@@ -16,6 +16,6 @@ uv venv "$ODOO_VENV"
 source "$ODOO_VENV/bin/activate"
 
 echo "Installing base packages..."
-uv pip install --link-mode=hardlink --no-build-isolation setuptools==68.1.2 wheel==0.42.0
+uv_pip_install setuptools==68.1.2 wheel==0.42.0
 
 echo "Virtual environment created and packages installed."
