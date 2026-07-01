@@ -10,6 +10,8 @@ if [ -f "$ODOO_VENV/bin/odoo" ]; then
     exit 0
 fi
 
+source "$ODOO_VENV/bin/activate"
+
 echo "Installing OCB..."
 
 if [ ! -d "$ODOO_SRC_DIR" ]; then
