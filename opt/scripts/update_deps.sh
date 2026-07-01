@@ -11,21 +11,20 @@ source "$ODOO_VENV/bin/activate"
 
 # Get current commit hash in the repository
 current_commit=$(cd "$ODOO_SRC_DIR" && git rev-parse HEAD)
-echo "Current Odoo commit is $current_commit"
+echo "Current Odoo $ODOO_VERSION is at commit $current_commit"
 
 # Sync the repository to the desired commit
 sync_ocb_repo
 
 # Get the new commit hash after sync
 new_commit=$(cd "$ODOO_SRC_DIR" && git rev-parse HEAD)
-echo "New Odoo commit is $new_commit"
 
 # Only upgrade if the commit has changed
 if [ "$current_commit" != "$new_commit" ]; then
-    echo "Odoo commit changed from $current_commit to $new_commit, upgrading..."
+    echo "Upgrading Odoo $ODOO_VERSION from $current_commit to $new_commit..."
     uv_install "$ODOO_SRC_DIR"
 else
-    echo "Odoo commit hasn't changed, skipping upgrade."
+    echo "Odoo $ODOO_VERSION commit hasn't changed, skipping upgrade."
 fi
 
 if [ ! -f "$ODOO_REQ_FILE" ]; then
