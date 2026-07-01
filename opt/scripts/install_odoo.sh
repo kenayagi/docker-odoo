@@ -17,7 +17,7 @@ if [ ! -d "$ODOO_SRC_DIR" ]; then
     https://github.com/OCA/OCB.git "$ODOO_SRC_DIR"
 fi
 sync_ocb_repo
-# TODO: upgrade odoo uv pip package ONLY if desired commit has changed
+
 uv_install "$ODOO_SRC_DIR"
 
 echo "Installing openupgradelib..."
