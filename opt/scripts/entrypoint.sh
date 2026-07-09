@@ -28,10 +28,10 @@ source "$ODOO_VENV/bin/activate"
 build_odoo_common_args
 
 GEO_ARGS=()
-[ -f /usr/share/GeoIP/GeoLite2-City.mmdb ] && \
-    GEO_ARGS+=(--geoip-city-db=/usr/share/GeoIP/GeoLite2-City.mmdb)
-[ -f /usr/share/GeoIP/GeoLite2-Country.mmdb ] && \
-    GEO_ARGS+=(--geoip-country-db=/usr/share/GeoIP/GeoLite2-Country.mmdb)
+[ -f $ODOO_HOMEDIR/GeoIP/GeoLite2-City.mmdb ] && \
+    GEO_ARGS+=(--geoip-city-db=$ODOO_HOMEDIR/GeoIP/GeoLite2-City.mmdb)
+[ -f $ODOO_HOMEDIR/GeoIP/GeoLite2-Country.mmdb ] && \
+    GEO_ARGS+=(--geoip-country-db=$ODOO_HOMEDIR/GeoIP/GeoLite2-Country.mmdb)
 
 exec "$ODOO_VENV/bin/odoo" "${ODOO_COMMON_ARGS[@]}" \
     "${GEO_ARGS[@]}" \
