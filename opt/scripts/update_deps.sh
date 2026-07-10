@@ -40,4 +40,4 @@ else
     rm -f "$ODOO_REQ_FILE"
 fi
 
-echo "Dependencies update completed."
+echo "Dependencies setup routine completed."

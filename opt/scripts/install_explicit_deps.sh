@@ -22,6 +22,8 @@ else
     NOW="$(date +%y%m%d_%H%M%S)"
     mkdir -p "$ODOO_HOMEDIR/log_setup"
     uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/${NOW}.explicit_deps_freeze.txt"
+
+    echo "Explicit dependencies has been installed."
 fi
 
-echo "Explicit dependencies update completed."
+echo "Explicit dependencies setup routine completed."
