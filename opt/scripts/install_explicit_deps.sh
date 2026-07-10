@@ -13,7 +13,6 @@ else
     source "$ODOO_VENV/bin/activate"
 
     echo "Installing explicit dependencies from $ODOO_EXPLICIT_REQ_FILE..."
-    cat "$ODOO_EXPLICIT_REQ_FILE"
 
     uv_install \
         --index-strategy unsafe-best-match \
@@ -22,6 +21,8 @@ else
     NOW="$(date +%y%m%d_%H%M%S)"
     mkdir -p "$ODOO_HOMEDIR/log_setup"
     uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/${NOW}.explicit_deps_freeze.txt"
+
+    rm -f "$ODOO_EXPLICIT_REQ_FILE"
 
     echo "Explicit dependencies has been installed."
 fi
