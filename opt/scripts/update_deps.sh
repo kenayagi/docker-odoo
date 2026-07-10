@@ -33,7 +33,7 @@ if [ ! -f "$ODOO_REQ_FILE" ]; then
 fi
 
 echo "Updating custom requirements..."
-uv_install --upgrade --index-strategy unsafe-best-match -r "$ODOO_REQ_FILE"
+uv_install --index-strategy unsafe-best-match -r "$ODOO_REQ_FILE"
 
 NOW="$(date +%y%m%d_%H%M%S)"
 mkdir -p "$ODOO_HOMEDIR/log_setup"
