@@ -18,4 +18,4 @@ source "$ODOO_VENV/bin/activate"
 echo "Installing base packages..."
 uv_pip_install setuptools==68.1.2 wheel==0.42.0
 
-echo "Virtual environment created and packages installed."
+echo "Virtual environment created and basic packages installed."
