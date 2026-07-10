@@ -28,16 +28,16 @@ else
 fi
 
 if [ ! -f "$ODOO_REQ_FILE" ]; then
-    echo "No requirements update file, skipping deps update."
-    exit 0
+    echo "No requirements file, skipping deps update."
+else
+    echo "Updating requirements..."
+    uv_install --index-strategy unsafe-best-match -r "$ODOO_REQ_FILE"
+
+    NOW="$(date +%y%m%d_%H%M%S)"
+    mkdir -p "$ODOO_HOMEDIR/log_setup"
+    uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/${NOW}.requirements_freeze.txt"
+
+    rm -f "$ODOO_REQ_FILE"
 fi
 
-echo "Updating custom requirements..."
-uv_install --index-strategy unsafe-best-match -r "$ODOO_REQ_FILE"
-
-NOW="$(date +%y%m%d_%H%M%S)"
-mkdir -p "$ODOO_HOMEDIR/log_setup"
-uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/${NOW}.requirements_freeze.txt"
-
-rm -f "$ODOO_REQ_FILE"
 echo "Dependencies update completed."
