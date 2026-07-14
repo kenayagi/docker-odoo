@@ -13,7 +13,7 @@ require_env() {
     : "${POSTGRES_PASSWORD:?}"
 }
 
-ODOO_EXPLICIT_REQ_FILE="${ODOO_EXPLICIT_REQ_FILE:-${ODOO_HOMEDIR}/odoo_explicit_requirements_${ODOO_VERSION}.txt}"
+ODOO_BASE_REQ_FILE="${ODOO_BASE_REQ_FILE:-${ODOO_HOMEDIR}/odoo_base_requirements.txt}"
 ODOO_SRC_DIR="${ODOO_HOMEDIR}/src/odoo_${ODOO_VERSION}"
 
 # Common odoo args

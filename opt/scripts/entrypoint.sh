@@ -6,7 +6,7 @@ source "${SCRIPT_DIR}/common.sh"
 require_env
 
 # Cleanup update files in case of error
-trap 'rm -f "${ODOO_REQ_FILE:-}" "${ODOO_UPD_FILE:-}"' ERR
+trap 'rm -f "${ODOO_CUST_REQ_FILE:-}" "${ODOO_UPD_FILE:-}"' ERR
 
 # Config file parsing
 if [ ! -f "$ODOO_CONF_FILE" ]; then
@@ -17,9 +17,9 @@ fi
 
 # Pipeline
 "$SCRIPT_DIR/create_venv.sh"
-"$SCRIPT_DIR/install_explicit_deps.sh"
+"$SCRIPT_DIR/install_base_deps.sh"
 "$SCRIPT_DIR/install_odoo.sh"
-"$SCRIPT_DIR/update_deps.sh"
+"$SCRIPT_DIR/install_cust_deps.sh"
 "$SCRIPT_DIR/wait_db.sh"
 "$SCRIPT_DIR/update_odoo.sh"
 
