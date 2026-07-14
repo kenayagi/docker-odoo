@@ -14,7 +14,7 @@ else
     source "$ODOO_VENV/bin/activate"
 
     echo "Installing base packages..."
-    uv_pip_install setuptools==68.1.2 wheel==0.42.0
+    uv_install setuptools==68.1.2 wheel==0.42.0
 fi
 
 echo "Virtual environment is ready."
