@@ -31,7 +31,7 @@ build_odoo_common_args() {
 # Wrapper uv pip install standard
 uv_install() {
     uv pip install \
-        --link-mode=hardlink \
+        --link-mode=copy \
         --prerelease=allow \
         --upgrade \
         "$@"
