@@ -35,7 +35,7 @@ else
 
     NOW="$(date +%y%m%d_%H%M%S)"
     mkdir -p "$ODOO_HOMEDIR/log_setup"
-    uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/${NOW}.cust_deps_freeze.txt"
+    uv pip freeze | sort > "$ODOO_HOMEDIR/log_setup/requirements.txt.${NOW}"
 
     rm -f "$ODOO_CUST_REQ_FILE"
 fi
