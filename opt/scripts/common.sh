@@ -32,7 +32,6 @@ build_odoo_common_args() {
 uv_install() {
     uv pip install \
         --link-mode=hardlink \
-        --no-build-isolation \
         --prerelease=allow \
         --upgrade \
         "$@"
