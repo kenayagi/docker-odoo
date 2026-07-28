@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20260509.1
+FROM ubuntu:noble-20260610
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=it_IT.UTF-8
@@ -14,7 +14,7 @@ ENV ODOO_CUST_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_VENV=${ODOO_HOMEDIR}/venv
 ENV ODOO_VERSION=18.0
-ENV ODOO_COMMIT=040445b98c4619e06d30dbabbb8e2639b1a89fd2
+ENV ODOO_COMMIT=b9f895014d42e519b4690329b68d4f0b6fdab09d
 ENV ODOO_BIN=${ODOO_VENV}/bin/odoo
 
 ENV POSTGRES_HOST=db
@@ -91,7 +91,7 @@ RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
 RUN groupadd -g ${ODOO_GID} odoo && \
     useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
 
-COPY --from=ghcr.io/astral-sh/uv:0.11.22 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.32 /uv /uvx /bin/
 RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.13
 
 RUN ln -s ${ODOO_BIN} /usr/local/bin/odoo
