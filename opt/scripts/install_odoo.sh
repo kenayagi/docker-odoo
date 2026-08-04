@@ -4,6 +4,7 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 source "${SCRIPT_DIR}/common.sh"
 require_env
+source "$ODOO_VENV/bin/activate"
 
 if [ -f "$ODOO_VENV/bin/odoo" ]; then
     echo "Odoo has already been installed."
@@ -28,8 +29,6 @@ if [ -f "$ODOO_VENV/bin/odoo" ]; then
     fi
 
 else
-    source "$ODOO_VENV/bin/activate"
-
     echo "Installing OCB..."
     if [ ! -d "$ODOO_SRC_DIR" ]; then
       git clone --depth 1 --branch "$ODOO_VERSION" \
