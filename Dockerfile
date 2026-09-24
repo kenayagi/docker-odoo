@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20260610
+FROM ubuntu:noble-20260911
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=it_IT.UTF-8
@@ -14,7 +14,7 @@ ENV ODOO_CUST_REQ_FILE=${ODOO_HOMEDIR}/requirements.txt
 ENV ODOO_UPD_FILE=${ODOO_HOMEDIR}/update.txt
 ENV ODOO_VENV=${ODOO_HOMEDIR}/venv
 ENV ODOO_VERSION=18.0
-ENV ODOO_COMMIT=9eb04165d6ba9eea8ba6fb23dbe7f87160ff8dc6
+ENV ODOO_COMMIT=ffb423d5b3eb9b30ad4933646a4630caf95ee9bd
 ENV ODOO_BIN=${ODOO_VENV}/bin/odoo
 
 ENV POSTGRES_HOST=db
@@ -83,7 +83,7 @@ RUN apt-get update && \
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
-    apt-get -y install postgresql-client-18 && \
+    apt-get -y install postgresql-client-18=18.6* && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
@@ -91,7 +91,7 @@ RUN echo ${LANG}" UTF-8" > /etc/locale.gen && locale-gen
 RUN groupadd -g ${ODOO_GID} odoo && \
     useradd -l -m -d ${ODOO_HOMEDIR} -s /bin/bash -u ${ODOO_UID} -g ${ODOO_GID} odoo
 
-COPY --from=ghcr.io/astral-sh/uv:0.11.32 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.12.18 /uv /uvx /bin/
 RUN XDG_DATA_HOME=/opt UV_PYTHON_BIN_DIR=/usr/local/bin uv python install 3.12.13
 
 RUN ln -s ${ODOO_BIN} /usr/local/bin/odoo
