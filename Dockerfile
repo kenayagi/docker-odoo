@@ -28,6 +28,9 @@ ENV LANG=it_IT.UTF-8
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+RUN echo -e '\ndeb http://snapshot.debian.org/archive/debian/20260824T000000Z bullseye main\ndeb http://snapshot.debian.org/archive/debian-security/20260824T000000Z bullseye-security main\ndeb http://snapshot.debian.org/archive/debian/20260824T000000Z bullseye-updates main\n' > /etc/apt/sources.list
+RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+
 RUN apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
     bzip2 \
