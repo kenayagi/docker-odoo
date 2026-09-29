@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-20260824
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -27,6 +27,9 @@ ENV PGUSER=${POSTGRES_USER}
 ENV LANG=it_IT.UTF-8
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN echo -e '\ndeb http://snapshot.debian.org/archive/debian/20260824T000000Z bullseye main\ndeb http://snapshot.debian.org/archive/debian-security/20260824T000000Z bullseye-security main\ndeb http://snapshot.debian.org/archive/debian/20260824T000000Z bullseye-updates main\n' > /etc/apt/sources.list
+RUN echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
@@ -101,7 +104,7 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
-COPY --from=ghcr.io/astral-sh/uv:0.11.7 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.12.20 /uv /uvx /bin/
 
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
@@ -112,7 +115,7 @@ RUN apt-get update && \
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
-    apt-get -y install postgresql-client-18 && \
+    apt-get -y install postgresql-client-18=18.6* && \
     apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
