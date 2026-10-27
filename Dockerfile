@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20260911
+FROM ubuntu:resolute-20261024.1
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=it_IT.UTF-8
