@@ -20,7 +20,7 @@ ENV POSTGRES_USER=odoo
 ENV POSTGRES_PASSWORD=Us3rP4ssw0rD
 
 ENV PGDATABASE=${ODOO_DB}
-ENV export PGHOST=${POSTGRES_HOST}
+ENV PGHOST=${POSTGRES_HOST}
 ENV PGPASSWORD=${POSTGRES_PASSWORD}
 ENV PGUSER=${POSTGRES_USER}
 
@@ -36,10 +36,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     bzip2 \
     ca-certificates \
     curl \
+    default-jre \
     geoip-database \
     git \
     gnupg \
     gsfonts \
+    lftp \
     libbz2-dev \
     libcairo2-dev \
     libffi-dev \
@@ -55,6 +57,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     libpq-dev \
     libreadline-dev \
     libreoffice \
+    libreoffice-java-common \
     libsasl2-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -68,7 +71,9 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     lzma \
     nano \
     openssh-client \
+    pg-activity \
     pkg-config \
+    poppler-utils \
     procps \
     rsync \
     tdsodbc \
@@ -99,6 +104,8 @@ RUN curl -L https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_
     update-alternatives --install /usr/bin/python python /usr/local/bin/python${PYTHON_VERSION%.*} 1 && \
     update-alternatives --install /usr/bin/pip pip /usr/local/bin/pip${PYTHON_VERSION%.*} 1
 
+COPY --from=ghcr.io/astral-sh/uv:0.13.6 /uv /uvx /bin/
+
 RUN apt-get update && \
     curl -L https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.buster_amd64.deb -o /tmp/wkhtmltopdf.deb && \
     apt-get -y install /tmp/wkhtmltopdf.deb && \
@@ -109,6 +116,7 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get update && \
     apt-get -y install postgresql-client-18=18.6* && \
+    apt-get -y upgrade && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "it_IT.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
