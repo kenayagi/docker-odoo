@@ -31,7 +31,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_TAG }}
       - name: send telegram message
-        uses: https://github.com/appleboy/telegram-action@master
+        uses: appleboy/telegram-action@v1
         with:
           to: ${{ vars.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}

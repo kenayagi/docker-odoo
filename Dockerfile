@@ -1,4 +1,4 @@
-FROM debian:bullseye-20260824
+FROM debian:bookworm-20261027-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
