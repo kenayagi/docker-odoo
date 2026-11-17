@@ -34,6 +34,7 @@ uv_install() {
         --link-mode=copy \
         --prerelease=allow \
         --upgrade \
+        --reinstall \
         "$@"
 }
 
