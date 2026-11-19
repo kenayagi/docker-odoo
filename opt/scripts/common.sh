@@ -34,9 +34,18 @@ uv_install() {
         --link-mode=copy \
         --prerelease=allow \
         --upgrade \
-        --reinstall \
         "$@"
 }
+# Wrapper uv pip reinstall without deps
+uv_reinstall_no_deps() {
+    uv pip install \
+        --link-mode=copy \
+        --prerelease=allow \
+        --reinstall \
+        --no-deps \
+        "$@"
+}
+
 
 # Update OCB to pinned commit
 sync_ocb_repo() {
