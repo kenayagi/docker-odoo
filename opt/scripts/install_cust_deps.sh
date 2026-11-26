@@ -14,6 +14,7 @@ if [ ! -f "$ODOO_CUST_REQ_FILE" ]; then
 else
     echo "Updating customer requirements..."
     uv_install --index-strategy unsafe-best-match -r "$ODOO_CUST_REQ_FILE"
+    uv_reinstall_no_deps --index-strategy unsafe-best-match -r "$ODOO_CUST_REQ_FILE"
 
     NOW="$(date +%y%m%d_%H%M%S)"
     mkdir -p "$ODOO_HOMEDIR/log_setup"
